@@ -2,26 +2,268 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+
+/* Video background container */
+.video-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Video element styling */
+.video-bg video {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+/* Glassmorphism effect */
+.glass {
+  /* background: rgba(255, 255, 255, 0.1); */
+  /* backdrop-filter: blur(10px); */
+  /* -webkit-backdrop-filter: blur(10px); */
+  /* border: 1px solid rgba(255, 255, 255, 0.18); */
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+}
+
+/* Dark mode styles */
+.dark .glass {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile-first header */
+header {
+  @apply h-16 md:h-20 transition-all duration-300;
+}
+
+/* Theme colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color: #f0e68c; /* Gold */
+  --secondary-color: #d3d3d3; /* Light Gray */
+  --accent-color: #8b8000; /* Dark Gold */
+  --neutral-light: #f5f5f5; /* Stone Neutral Light */
+  --neutral-dark: #a9a9a9; /* Stone Neutral Dark */
+  --base-blackground-size: cover;
+  background-attachment: fixed;
+  background-color: var(--primary-color);
+  color: var(--base-white);
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  padding-top: 64px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 2px;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Card and content styling */
+.bg-black bg-opacity-70, 
+.card,
+[class*="bg-gray-"] {
+  color: var(--text-primary);
 }
+
+.text-gray-600 {
+  color: var(--text-secondary);
+}
+
+.text-gray-500 {
+  color: var(--text-secondary);
+}
+
+/* Form styling */
+input,
+select,
+textarea {
+  color: var(--text-primary);
+}
+
+label {
+  color: var(--text-primary);
+}
+
+/* Button styling */
+.btn {
+  background-color: var(--accent-color);
+  color: var(--base-black);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #b18f4f;
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: var(--base-black);
+}
+
+.btn-secondary {
+  background-color: var(--base-black);
+  color: var(--base-white);
+}
+
+.btn-red {
+  background-color: #ff4d4d;
+  color: var(--base-white);
+}
+
+.btn-red:hover {
+  background-color: #ff3333;
+}
+
+/* Navigation styling */
+.nav-link {
+  color: var(--text-light);
+}
+
+/* Dark background content */
+.bg-gray-800,
+.bg-gray-900 {
+  color: var(--text-light);
+}
+
+/* Card content */
+.card-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+/* Form backgrounds */
+.form-bg {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.form-bg label,
+.form-bg input,
+.form-bg select,
+.form-bg textarea {
+  color: var(--text-primary);
+}
+
+/* Ensure all currency is displayed in ZAR */
+.currency::before {
+  content: "ZAR ";
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b18f4f;
+}
+
+/* MiChina specific styles */
+.michina-page {
+  background-color: var(--primary-color);
+}
+
+.michina-page .btn {
+  background-color: #ff4d4d;
+  color: var(--base-white);
+}
+
+.michina-page .btn:hover {
+  background-color: #ff3333;
+}
+
+/* Adjustments for top navigation */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Ensure the content doesn't get hidden behind the fixed header */
+main {
+  padding-top: 1rem;
+}
+
+/* Card and content wrapper styles */
+.content-wrapper {
+  background-color: rgba(28, 28, 28, 0.95);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.content-wrapper h1,
+.content-wrapper h2,
+.content-wrapper h3,
+.content-wrapper p {
+  color: var(--text-light);
+}
+
+/* White background card text fix */
+.bg-black bg-opacity-70 {
+  color: var(--text-primary);
+}
+
+.bg-black bg-opacity-70 h1,
+.bg-black bg-opacity-70 h2,
+.bg-black bg-opacity-70 h3,
+.bg-black bg-opacity-70 p {
+  color: var(--text-primary);
+}
+
+/* Form card specific styles */
+.form-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.form-card label {
+  color: var(--text-primary);
+}
+
+.form-card input,
+.form-card select,
+.form-card textarea {
+  color: var(--text-primary);
+  background-color: white;
+}
+
