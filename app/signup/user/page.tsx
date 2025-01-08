@@ -24,14 +24,14 @@ const UserSignUp = () => {
           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
         </div>
         <div className="flex items-center justify-between">
-          <button className="bg-accent-color hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+          <button className="bg-accent-color hover:bg-blue-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
             Sign Up
           </button>
         </div>
       </form>
       <div className="text-center mt-4">
         <p>Or sign up with:</p>
-        <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">
+        <button className="bg-red-600 hover:bg-red-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2">
           Google
         </button>
       </div>

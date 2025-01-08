@@ -50,8 +50,8 @@ const StoresPage = () => {
             <Image src={store.logo} alt={store.name} width={300} height={200} className="w-full h-48 object-cover" />
             <div className="p-4">
               <h2 className="text-xl font-bold mb-2">{store.name}</h2>
-              <p className="text-gray-600 mb-2">{store.description}</p>
-              <p className="text-sm text-gray-500">{store.location}</p>
+              <p className="text-white mb-2">{store.description}</p>
+              <p className="text-sm text-white-500">{store.location}</p>
             </div>
           </div>
         ))}

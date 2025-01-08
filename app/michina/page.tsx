@@ -4,7 +4,7 @@ import { ShoppingBag, Truck, Clock } from 'lucide-react'
 
 const MiChinaPage = () => {
   return (
-    <div className="container mx-auto my-8 text-white">
+    <div className="container mx-auto my-8 text-gray-300">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4 text-red-600">Welcome to MiChina</h1>
         <p className="text-xl mb-6">Your Marketplace Inspired by China</p>

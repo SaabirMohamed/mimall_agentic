@@ -20,13 +20,13 @@ const HailoRidePage = () => {
             <label className="block mb-2">Request Type</label>
             <div className="flex space-x-4">
               <button
-                className={`px-4 py-2 rounded ${requestType === 'ride' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+                className={`px-4 py-2 rounded ${requestType === 'ride' ? 'bg-green-500 text-gray-300' : 'bg-gray-200'}`}
                 onClick={() => setRequestType('ride')}
               >
                 Ride
               </button>
               <button
-                className={`px-4 py-2 rounded ${requestType === 'delivery' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+                className={`px-4 py-2 rounded ${requestType === 'delivery' ? 'bg-green-500 text-gray-300' : 'bg-gray-200'}`}
                 onClick={() => setRequestType('delivery')}
               >
                 Delivery
@@ -83,7 +83,7 @@ const HailoRidePage = () => {
             </div>
           </div>
 
-          <button className="w-full bg-green-500 text-white py-3 rounded font-bold hover:bg-green-600 transition-colors duration-300">
+          <button className="w-full bg-green-500 text-gray-300 py-3 rounded font-bold hover:bg-green-600 transition-colors duration-300">
             Request {requestType === 'ride' ? 'Ride' : 'Delivery'}
           </button>
         </div>

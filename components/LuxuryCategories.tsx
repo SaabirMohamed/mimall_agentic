@@ -11,7 +11,7 @@ const categories = [
 const LuxuryCategories = () => {
   return (
     <div className="container mx-auto my-12">
-      <h2 className="text-3xl mb-8 text-center text-white">Explore Luxury</h2>
+      <h2 className="text-3xl mb-8 text-center text-gray-300">Explore Luxury</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         {categories.map((category) => (
           <div key={category.name} className="form-card text-center group">

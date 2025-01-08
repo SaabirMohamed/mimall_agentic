@@ -78,9 +78,9 @@ const Sidebar = () => {
         <h3 className="text-xl mb-2 text-gold-500">Talk to MiMall</h3>
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-64">
           <button className="w-full bg-gold-500 hover:bg-gold-600 rounded-full p-4 flex items-center justify-center transition-all duration-300 hover:scale-105">
-            <Mic className="text-white" size={24} />
+            <Mic className="text-gray-300" size={24} />
           </button>
-          <div className="text-sm text-white text-center mt-2">
+          <div className="text-sm text-gray-300 text-center mt-2">
             Click to start voice conversation
           </div>
         </div>
@@ -89,7 +89,7 @@ const Sidebar = () => {
         <h4 className="text-lg mb-2 text-gold-500">Suggested Questions</h4>
         <ul className="space-y-2">
           {currentQuestions.map((question, index) => (
-            <li key={index} className="text-sm text-white hover:text-gold-500 cursor-pointer flex items-center">
+            <li key={index} className="text-sm text-gray-300 hover:text-gold-500 cursor-pointer flex items-center">
               <MessageSquare className="inline-block mr-2 text-gold-500" size={14} />
               {question}
             </li>
@@ -99,11 +99,11 @@ const Sidebar = () => {
       <div>
         <h4 className="text-lg mb-2 text-gold-500">AI Settings</h4>
         <ul className="space-y-2">
-          <li className="flex items-center cursor-pointer text-white hover:text-gold-500">
+          <li className="flex items-center cursor-pointer text-gray-300 hover:text-gold-500">
             <Settings size={16} className="mr-2 text-gold-500" />
             <span className="text-sm">Customize AI</span>
           </li>
-          <li className="flex items-center cursor-pointer text-white hover:text-gold-500">
+          <li className="flex items-center cursor-pointer text-gray-300 hover:text-gold-500">
             <HelpCircle size={16} className="mr-2 text-gold-500" />
             <span className="text-sm">AI Help</span>
           </li>

@@ -4,7 +4,7 @@ import Image from 'next/image'
 const AboutPage = () => {
   return (
     <div className="container mx-auto my-8 pt-16">
-      <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-lg shadow-2xl overflow-hidden">
+      <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-gray-300 rounded-lg shadow-2xl overflow-hidden">
         <div className="p-8 md:p-12 lg:p-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center">The miMall Story</h1>
           <div className="space-y-6 text-lg">

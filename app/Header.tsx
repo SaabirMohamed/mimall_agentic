@@ -10,7 +10,7 @@ const Header = () => {
           <span className="mr-2">MiMall</span>
         </Link>
         <button className="rounded-full bg-accent-color p-2 shadow hover:bg-primary-color transition-colors ml-4">
-          <Mic size={24} className="text-white" />
+          <Mic size={24} className="text-gray-300" />
         </button>
       </div>
       <nav className="container mx-auto mt-2">

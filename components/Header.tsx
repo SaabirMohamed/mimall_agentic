@@ -17,27 +17,27 @@ export default function Header() {
           <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block absolute md:relative top-16 md:top-0 left-0 right-0 bg-dark-900/95 md:bg-transparent p-4 md:p-0`}>
             <ul className="flex flex-col md:flex-row gap-4 md:gap-8 items-center">
               <li>
-                <Link href="/" className="text-white hover:text-gold-500 transition-colors">
+                <Link href="/" className="text-gray-300 hover:text-gold-500 transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-white hover:text-gold-500 transition-colors">
+                <Link href="/about" className="text-gray-300 hover:text-gold-500 transition-colors">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/stores" className="text-white hover:text-gold-500 transition-colors">
+                <Link href="/stores" className="text-gray-300 hover:text-gold-500 transition-colors">
                   Stores
                 </Link>
               </li>
               <li>
-                <Link href="/signup/user" className="text-white hover:text-gold-500 transition-colors">
+                <Link href="/signup/user" className="text-gray-300 hover:text-gold-500 transition-colors">
                   Sign In
                 </Link>
               </li>
               <li>
-                <Link href="/signup/business" className="text-white hover:text-gold-500 transition-colors">
+                <Link href="/signup/business" className="text-gray-300 hover:text-gold-500 transition-colors">
                   Business
                 </Link>
               </li>
