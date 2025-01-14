@@ -6,6 +6,7 @@ import Header from './Header'
 import Sidebar from '../components/Sidebar'
 import VideoBackground from '../components/VideoBackground'
 import { ThemeProvider } from '../components/ThemeProvider'
+import { FloatingAgent } from '../components/FloatingAgent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,6 +33,12 @@ export default function RootLayout({
               <Sidebar />
             </div>
           </div>
+
+          {/* Floating Agent */}
+          <FloatingAgent 
+            elevenLabsKey="sk_167d6fb6888cb139283e7447503fa673bcc2545ab0c78052"
+            agentId="4qre9tSCt0aTdREuY9we"
+          />
         </ThemeProvider>
       </body>
     </html>
