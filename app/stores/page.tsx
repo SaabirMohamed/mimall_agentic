@@ -5,37 +5,37 @@ const stores = [
   {
     name: "Gucci",
     description: "Italian luxury fashion house",
-    logo: "/heart.jpg",
+    logo: "/gucci_card.jpeg",
     location: "Ground Floor, Diamond Walk"
   },
   {
     name: "Louis Vuitton",
     description: "French luxury goods company",
-    logo: "/heart.jpg",
+    logo: "/louis_vuitton_card.jpeg",
     location: "Upper Level, Diamond Walk"
   },
   {
     name: "Cartier",
     description: "French luxury goods conglomerate",
-    logo: "/heart.jpg",
+    logo: "/cartier_card.jpeg",
     location: "Ground Floor, Diamond Walk"
   },
   {
     name: "Prada",
     description: "Italian luxury fashion house",
-    logo: "/heart.jpg",
+    logo: "/prada_card.jpeg",
     location: "Upper Level, Diamond Walk"
   },
   {
-    name: "Burberry",
-    description: "British luxury fashion house",
-    logo: "/heart.jpg",
+    name: "Nike",
+    description: "Nike luxury brand",
+    logo: "/nike_card.jpeg",
     location: "Ground Floor, Sandton City"
   },
   {
     name: "Tiffany & Co.",
     description: "American luxury jewelry retailer",
-    logo: "/heart.jpg",
+    logo: "/tiffany_card.jpeg",
     location: "Ground Floor, Diamond Walk"
   }
 ]

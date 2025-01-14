@@ -45,95 +45,98 @@ export function FloatingAgent({ elevenLabsKey }: FloatingAgentProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const recognitionRef = useRef<WebkitSpeechRecognition | null>(null)
 
-  const callElevenLabsAPI = useCallback(async (text: string) => {
-    if (!text.trim()) {
-      console.log('No text to process');
-      return;
-    }
+  const callElevenLabsAPI = useCallback(
+    async (text: string) => {
+      if (!text.trim()) {
+        console.log('No text to process');
+        return;
+      }
 
-    if (!elevenLabsKey) {
-      console.error('ElevenLabs API key is missing');
-      alert('ElevenLabs API key is required');
-      return;
-    }
+      if (!elevenLabsKey) {
+        console.error('ElevenLabs API key is missing');
+        alert('ElevenLabs API key is required');
+        return;
+      }
 
-    setIsProcessing(true);
-    console.log('Processing text:', text);
+      setIsProcessing(true);
+      console.log('Processing text:', text);
 
-    try {
-      const voiceId = '21m00Tcm4TlvDq8ikWAM';
-      console.log('Making API request to ElevenLabs...');
-      
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'xi-api-key': elevenLabsKey,
-        },
-        body: JSON.stringify({
-          text,
-          model_id: 'eleven_monolingual_v1',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
+      try {
+        const voiceId = '21m00Tcm4TlvDq8ikWAM';
+        console.log('Making API request to ElevenLabs...');
+        
+        const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'xi-api-key': elevenLabsKey,
           },
-        }),
-      });
+          body: JSON.stringify({
+            text,
+            model_id: 'eleven_monolingual_v1',
+            voice_settings: {
+              stability: 0.5,
+              similarity_boost: 0.75,
+            },
+          }),
+        });
 
-      console.log('API Response status:', response.status);
+        console.log('API Response status:', response.status);
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.error('API Error Data:', errorData);
-        throw new Error(
-          `ElevenLabs API error: ${response.status} ${response.statusText}${
-            errorData ? ` - ${JSON.stringify(errorData)}` : ''
-          }`
-        );
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => null);
+          console.error('API Error Data:', errorData);
+          throw new Error(
+            `ElevenLabs API error: ${response.status} ${response.statusText}${
+              errorData ? ` - ${JSON.stringify(errorData)}` : ''
+            }`
+          );
+        }
+
+        console.log('Getting audio blob...');
+        const audioBlob = await response.blob();
+        console.log('Audio blob size:', audioBlob.size);
+
+        if (!audioBlob || audioBlob.size === 0) {
+          throw new Error('Received empty audio data from ElevenLabs');
+        }
+
+        console.log('Creating audio element...');
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        audio.onloadeddata = () => {
+          console.log('Audio loaded, ready to play');
+        };
+
+        audio.onplay = () => {
+          console.log('Audio started playing');
+        };
+
+        audio.onended = () => {
+          console.log('Audio finished playing');
+          URL.revokeObjectURL(audioUrl);
+        };
+
+        audio.onerror = (e) => {
+          console.error('Audio playback error:', e);
+        };
+
+        console.log('Attempting to play audio...');
+        await audio.play();
+
+        setResponse(text);
+        setShowResponse(true);
+        setTimeout(() => setShowResponse(false), 10000);
+      } catch (error) {
+        console.error('Error calling ElevenLabs:', error)
+        alert(error instanceof Error ? error.message : 'Failed to generate speech')
+      } finally {
+        setIsProcessing(false);
       }
-
-      console.log('Getting audio blob...');
-      const audioBlob = await response.blob();
-      console.log('Audio blob size:', audioBlob.size);
-
-      if (!audioBlob || audioBlob.size === 0) {
-        throw new Error('Received empty audio data from ElevenLabs');
-      }
-
-      console.log('Creating audio element...');
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      
-      audio.onloadeddata = () => {
-        console.log('Audio loaded, ready to play');
-      };
-
-      audio.onplay = () => {
-        console.log('Audio started playing');
-      };
-
-      audio.onended = () => {
-        console.log('Audio finished playing');
-        URL.revokeObjectURL(audioUrl);
-      };
-
-      audio.onerror = (e) => {
-        console.error('Audio playback error:', e);
-      };
-
-      console.log('Attempting to play audio...');
-      await audio.play();
-
-      setResponse(text);
-      setShowResponse(true);
-      setTimeout(() => setShowResponse(false), 10000);
-    } catch (error) {
-      console.error('Error calling ElevenLabs:', error)
-      alert(error instanceof Error ? error.message : 'Failed to generate speech')
-    } finally {
-      setIsProcessing(false);
-    }
-  }, [elevenLabsKey]);
+    },
+    [elevenLabsKey]
+  );
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
