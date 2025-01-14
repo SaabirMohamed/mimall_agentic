@@ -49,7 +49,7 @@ const StoresPage = () => {
           <div key={store.name} className="bg-black bg-opacity-70 shadow-md rounded-lg overflow-hidden">
             <Image src={store.logo} alt={store.name} width={300} height={200} className="w-full h-48 object-cover" />
             <div className="p-4">
-              <h2 className="text-xl font-bold mb-2">{store.name}</h2>
+              <h2 className="text-xl text-white font-bold mb-2">{store.name}</h2>
               <p className="text-white mb-2">{store.description}</p>
               <p className="text-sm text-white-500">{store.location}</p>
             </div>

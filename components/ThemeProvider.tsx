@@ -29,7 +29,7 @@ export function ThemeProvider({
     
     // Persist theme in localStorage
     localStorage.setItem('theme', theme)
-  }, [theme])
+  }, [theme, attribute, enableSystem])
 
   return (
     <div>
