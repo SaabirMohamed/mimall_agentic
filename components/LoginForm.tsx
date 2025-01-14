@@ -24,7 +24,7 @@ export default function LoginForm() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+          redirectTo: window.location.hostname === 'localhost' ? 'http://localhost:8084/auth/callback' : 'https://mimall.ageye.pro/auth/callback'
         }
       })
 
@@ -50,7 +50,7 @@ export default function LoginForm() {
 
       if (error) throw error
 
-      router.push('/dashboard')
+      // router.push('/dashboard')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to sign in')
     } finally {
@@ -66,8 +66,8 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 p-8 glass rounded-xl">
+    <div className="min-h-screen flex items-start justify-center">
+      <div className="max-w-md bg-black bg-opacity-70 w-full p-8 rounded-xl">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
             Sign in to MiMall

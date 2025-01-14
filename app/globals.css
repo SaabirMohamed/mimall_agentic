@@ -64,6 +64,28 @@ header {
   --neutral-light: #f5f5f5; /* Stone Neutral Light */
   --neutral-dark: #a9a9a9; /* Stone Neutral Dark */
   --base-blackground-size: cover;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --chart-1: 222.2 84% 4.9%;
+  --chart-2: 222.2 84% 4.9%;
+  --chart-3: 222.2 84% 4.9%;
+  --chart-4: 222.2 84% 4.9%;
+  --chart-5: 222.2 84% 4.9%;
   background-attachment: fixed;
   background-color: var(--primary-color);
   color: var(--base-white);
@@ -86,18 +108,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Card and content styling */
-.bg-black bg-opacity-70, 
+.bg-black bg-opacity-70,
 .card,
 [class*="bg-gray-"] {
-  color: var(--text-gray-200);
+  color: var(--secondary-foreground);
 }
 
 .text-gray-200 {
-  color: var(--text-secondary);
+  color: var(--secondary-foreground);
 }
 
 .text-gray-500 {
-  color: var(--text-secondary);
+  color: var(--muted-foreground);
 }
 
 /* Form styling */
@@ -183,7 +205,7 @@ label {
 .form-bg input,
 .form-bg select,
 .form-bg textarea {
-  color: var(--text-gray-200);
+  color: var(--secondary-foreground);
 }
 
 /* Ensure all currency is displayed in ZAR */
@@ -291,7 +313,7 @@ main {
 }
 
 .form-card label {
-  color: var(--text-gray-200);
+  color: var(--secondary-foreground);
 }
 
 .form-card input,
