@@ -4,14 +4,14 @@ import { ShoppingBag, Truck, Clock } from 'lucide-react'
 
 const MiChinaPage = () => {
   return (
-    <div className="container mx-auto my-8 text-gray-300">
+    <div className="container mx-auto my-8 text-gray-200">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4 text-red-600">Welcome to MiChina</h1>
-        <p className="text-xl mb-6">Your Marketplace Inspired by China</p>
-        <p className="text-lg">Discover the best of China Mall products delivered on-demand to your door!</p>
+        <p className="text-xl mb-6 text-red-600">Your Marketplace Inspired by China</p>
+        <p className="text-lg text-gray-200">Discover the best of China Mall products delivered on-demand to your door!</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div className="grid grid-cols-1 text-gray-200 md:grid-cols-3 gap-8 mb-12">
         <div className="bg-gray-800 shadow-md rounded-lg p-6 text-center border border-red-600">
           <ShoppingBag className="mx-auto mb-4 text-red-600" size={48} />
           <h2 className="text-2xl font-semibold mb-2">Vast Selection</h2>

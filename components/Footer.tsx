@@ -14,17 +14,17 @@ const Footer = () => {
           <div>
             <h3 className="text-xl mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link href="/privacy-policy" className="hover:text-accent-color">Privacy Policy</Link></li>
-              <li><Link href="/terms-conditions" className="hover:text-accent-color">Terms & Conditions</Link></li>
-              <li><Link href="/digital-privacy" className="hover:text-accent-color">Digital Privacy</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-gray-200">Privacy Policy</Link></li>
+              <li><Link href="/terms-conditions" className="hover:text-gray-200">Terms & Conditions</Link></li>
+              <li><Link href="/digital-privacy" className="hover:text-gray-200">Digital Privacy</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="text-xl mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-accent-color hover:text-base-black">Facebook</a>
-              <a href="#" className="text-accent-color hover:text-base-black">Twitter</a>
-              <a href="#" className="text-accent-color hover:text-base-black">Instagram</a>
+              <a href="#" className="text-gray-200 hover:text-base-black">Facebook</a>
+              <a href="#" className="text-gray-200 hover:text-base-black">Twitter</a>
+              <a href="#" className="text-gray-200 hover:text-base-black">Instagram</a>
             </div>
           </div>
         </div>

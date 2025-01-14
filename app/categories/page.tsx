@@ -14,13 +14,13 @@ const categories = [
 
 const CategoriesPage = () => {
   return (
-    <div className="container mx-auto my-8">
-      <h1 className="text-4xl mb-6">Product Categories</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div className="container mx-auto my-8 text-gray-200">
+      <h1 className="text-4xl text-green-500 mb-6">Product Categories</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-gray-200">
         {categories.map((category) => (
-          <div key={category.name} className="bg-black bg-opacity-70 shadow-md rounded-lg p-6 text-center hover:shadow-lg transition-shadow duration-300">
-            <category.icon className="mx-auto mb-4 text-accent-color" size={48} />
-            <h2 className="text-xl font-semibold">{category.name}</h2>
+          <div key={category.name} className="bg-black text-gray-200 bg-opacity-70 shadow-md rounded-lg p-6 text-center hover:shadow-lg transition-shadow duration-300">
+            <category.icon className="mx-auto mb-4 text-amber-500" size={48} />
+            <h2 className="text-xl font-semibold text-amber-500">{category.name}</h2>
           </div>
         ))}
       </div>

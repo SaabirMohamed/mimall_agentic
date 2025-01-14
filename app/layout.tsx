@@ -1,14 +1,12 @@
 'use client'
 
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Marvel } from 'next/font/google'
 import Header from './Header'
-import Sidebar from '../components/Sidebar'
 import VideoBackground from '../components/VideoBackground'
 import { ThemeProvider } from '../components/ThemeProvider'
-import { FloatingAgent } from '../components/FloatingAgent'
 
-const inter = Inter({ subsets: ['latin'] })
+const marvel = Marvel({weight: '700', subsets: ['latin']})
 
 export default function RootLayout({
   children,
@@ -17,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={marvel.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <VideoBackground />
           
@@ -25,20 +23,17 @@ export default function RootLayout({
           <div className="relative z-10">
             <Header />
             <div className="flex">
-              <main className="flex-grow overflow-y-auto min-h-screen pt-20">
-                <div className="glass p-6 mx-6 my-4 rounded-xl animate-fade-in">
-                  {children}
-                </div>
+              <main className="flex-grow bg-transparent overflow-y-auto min-h-screen pt-20">
+                {children}
               </main>
-              <Sidebar />
+              {/* <Sidebar /> */}
             </div>
           </div>
 
           {/* Floating Agent */}
-          <FloatingAgent 
+          {/* <FloatingAgent
             elevenLabsKey="sk_167d6fb6888cb139283e7447503fa673bcc2545ab0c78052"
-            agentId="4qre9tSCt0aTdREuY9we"
-          />
+          /> */}
         </ThemeProvider>
       </body>
     </html>

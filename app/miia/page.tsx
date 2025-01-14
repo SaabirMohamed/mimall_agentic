@@ -18,13 +18,13 @@ const MiiAPage = () => {
             <label className="block mb-2">I am a:</label>
             <div className="flex space-x-4">
               <button
-                className={`px-4 py-2 rounded ${isPatient ? 'bg-blue-500 text-gray-300' : 'bg-gray-200'}`}
+                className={`px-4 py-2 rounded ${isPatient ? 'bg-blue-500 text-gray-200' : 'bg-gray-200'}`}
                 onClick={() => setIsPatient(true)}
               >
                 Patient
               </button>
               <button
-                className={`px-4 py-2 rounded ${!isPatient ? 'bg-blue-500 text-gray-300' : 'bg-gray-200'}`}
+                className={`px-4 py-2 rounded ${!isPatient ? 'bg-blue-500 text-gray-200' : 'bg-gray-200'}`}
                 onClick={() => setIsPatient(false)}
               >
                 Healthcare Provider
@@ -46,7 +46,7 @@ const MiiAPage = () => {
               <div className="mb-4">
                 <label className="block mb-2">Preferred appointment date</label>
                 <div className="flex items-center border rounded p-2">
-                  <Calendar className="mr-2 text-gray-400" />
+                  <Calendar className="mr-2 text-gray-200" />
                   <input type="date" className="w-full outline-none" />
                 </div>
               </div>
@@ -54,12 +54,12 @@ const MiiAPage = () => {
               <div className="mb-4">
                 <label className="block mb-2">Preferred time</label>
                 <div className="flex items-center border rounded p-2">
-                  <Clock className="mr-2 text-gray-400" />
+                  <Clock className="mr-2 text-gray-200" />
                   <input type="time" className="w-full outline-none" />
                 </div>
               </div>
 
-              <button className="w-full bg-blue-500 text-gray-300 py-3 rounded font-bold hover:bg-blue-600 transition-colors duration-300">
+              <button className="w-full bg-blue-500 text-gray-200 py-3 rounded font-bold hover:bg-blue-600 transition-colors duration-300">
                 Find Suitable Doctors
               </button>
             </>
@@ -68,7 +68,7 @@ const MiiAPage = () => {
               <div className="mb-4">
                 <label className="block mb-2">Full Name</label>
                 <div className="flex items-center border rounded p-2">
-                  <User className="mr-2 text-gray-400" />
+                  <User className="mr-2 text-gray-200" />
                   <input type="text" className="w-full outline-none" placeholder="Dr. Jane Doe" />
                 </div>
               </div>
@@ -81,7 +81,7 @@ const MiiAPage = () => {
               <div className="mb-4">
                 <label className="block mb-2">Practice Address</label>
                 <div className="flex items-center border rounded p-2">
-                  <MapPin className="mr-2 text-gray-400" />
+                  <MapPin className="mr-2 text-gray-200" />
                   <input type="text" className="w-full outline-none" placeholder="123 Medical St, Johannesburg" />
                 </div>
               </div>
@@ -89,7 +89,7 @@ const MiiAPage = () => {
               <div className="mb-4">
                 <label className="block mb-2">Contact Number</label>
                 <div className="flex items-center border rounded p-2">
-                  <Phone className="mr-2 text-gray-400" />
+                  <Phone className="mr-2 text-gray-200" />
                   <input type="tel" className="w-full outline-none" placeholder="+27 12 345 6789" />
                 </div>
               </div>
@@ -97,12 +97,12 @@ const MiiAPage = () => {
               <div className="mb-4">
                 <label className="block mb-2">Email</label>
                 <div className="flex items-center border rounded p-2">
-                  <Mail className="mr-2 text-gray-400" />
+                  <Mail className="mr-2 text-gray-200" />
                   <input type="email" className="w-full outline-none" placeholder="doctor@example.com" />
                 </div>
               </div>
 
-              <button className="w-full bg-blue-500 text-gray-300 py-3 rounded font-bold hover:bg-blue-600 transition-colors duration-300">
+              <button className="w-full bg-blue-500 text-gray-200 py-3 rounded font-bold hover:bg-blue-600 transition-colors duration-300">
                 Sign Up as Healthcare Provider
               </button>
             </>
@@ -113,31 +113,31 @@ const MiiAPage = () => {
           <h2 className="text-2xl font-semibold mb-4">How MiiA Works</h2>
           <ul className="space-y-4">
             <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-300 rounded-full p-2 mr-4">1</div>
+              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">1</div>
               <div>
                 <h3 className="font-semibold">Describe Your Symptoms</h3>
-                <p className="text-gray-300">Tell MiiA about your health concerns or symptoms.</p>
+                <p className="text-gray-200">Tell MiiA about your health concerns or symptoms.</p>
               </div>
             </li>
             <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-300 rounded-full p-2 mr-4">2</div>
+              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">2</div>
               <div>
                 <h3 className="font-semibold">AI Analysis</h3>
-                <p className="text-gray-300">MiiA analyzes your input to understand your needs.</p>
+                <p className="text-gray-200">MiiA analyzes your input to understand your needs.</p>
               </div>
             </li>
             <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-300 rounded-full p-2 mr-4">3</div>
+              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">3</div>
               <div>
                 <h3 className="font-semibold">Doctor Recommendations</h3>
-                <p className="text-gray-300">Based on the analysis, MiiA suggests suitable healthcare providers.</p>
+                <p className="text-gray-200">Based on the analysis, MiiA suggests suitable healthcare providers.</p>
               </div>
             </li>
             <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-300 rounded-full p-2 mr-4">4</div>
+              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">4</div>
               <div>
                 <h3 className="font-semibold">Book Appointment</h3>
-                <p className="text-gray-300">Choose a doctor and book your appointment through our platform.</p>
+                <p className="text-gray-200">Choose a doctor and book your appointment through our platform.</p>
               </div>
             </li>
           </ul>

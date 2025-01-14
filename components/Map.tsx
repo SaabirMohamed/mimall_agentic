@@ -23,7 +23,7 @@ export default function Map() {
             placeholder="Enter pickup location"
             value={origin}
             onChange={(e) => setOrigin(e.target.value)}
-            className="flex-1 bg-transparent outline-none placeholder:text-gray-400"
+            className="flex-1 bg-transparent outline-none placeholder:text-gray-200"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -33,7 +33,7 @@ export default function Map() {
             placeholder="Enter destination"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
-            className="flex-1 bg-transparent outline-none placeholder:text-gray-400"
+            className="flex-1 bg-transparent outline-none placeholder:text-gray-200"
           />
         </div>
       </div>
@@ -43,19 +43,19 @@ export default function Map() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
             <div className="text-gold-500">Standard</div>
-            <div className="text-sm text-gray-400">ZAR 50-70</div>
+            <div className="text-sm text-gray-200">ZAR 50-70</div>
           </button>
           <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
             <div className="text-gold-500">Premium</div>
-            <div className="text-sm text-gray-400">ZAR 80-100</div>
+            <div className="text-sm text-gray-200">ZAR 80-100</div>
           </button>
           <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
             <div className="text-gold-500">XL</div>
-            <div className="text-sm text-gray-400">ZAR 100-120</div>
+            <div className="text-sm text-gray-200">ZAR 100-120</div>
           </button>
           <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
             <div className="text-gold-500">Bike</div>
-            <div className="text-sm text-gray-400">ZAR 30-50</div>
+            <div className="text-sm text-gray-200">ZAR 30-50</div>
           </button>
         </div>
       </div>

@@ -54,14 +54,14 @@ const locations = [
 const LocationsPage = () => {
   return (
     <div className="container mx-auto my-8">
-      <h1 className="text-4xl mb-6">Our Locations</h1>
+      <h1 className="text-4xl text-gray-200 mb-6">Our Locations</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {locations.map((location) => (
           <div key={location.name} className="bg-black bg-opacity-70 shadow-md rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-2">{location.name}</h2>
-            <p className="mb-2"><strong>Address:</strong> {location.address}</p>
-            <p className="mb-2"><strong>Hours:</strong> {location.hours}</p>
-            <p><strong>Phone:</strong> {location.phone}</p>
+            <h2 className="text-2xl text-gray-200 font-semibold mb-2">{location.name}</h2>
+            <p className="mb-2 text-yellow-200"><strong>Address:</strong> {location.address}</p>
+            <p className="mb-2 text-amber-500"><strong>Hours:</strong> {location.hours}</p>
+            <p className="text-green-500"><strong>Phone:</strong> {location.phone}</p>
           </div>
         ))}
       </div>
