@@ -2,7 +2,6 @@
 
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { usePathname } from 'next/navigation'
 import Header from './Header'
 import Sidebar from '../components/Sidebar'
 import VideoBackground from '../components/VideoBackground'
@@ -10,14 +9,11 @@ import { ThemeProvider } from '../components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import { metadata } from './metadata'
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const pathname = usePathname()
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { MapPin, Package, Truck, Car, Bike, DollarSign } from 'lucide-react'
+import { MapPin, DollarSign } from 'lucide-react'
 import Map from '../../components/Map'
 
 const HailoRidePage = () => {
