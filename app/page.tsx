@@ -1,15 +1,30 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import SearchBar from '../components/SearchBar'
 import LuxuryCategories from '../components/LuxuryCategories'
 import StorePresentations from '../components/StorePresentations'
+import { motion } from 'framer-motion'
 
 export default function Home() {
   return (
-    <div className="container mx-auto my-8">
+    <motion.div
+      className="container mx-auto my-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Welcome to MiMall</h1>
-        <p className="text-xl mb-6">Your Modern, Intelligent Mall for All your Luxury Lifestyle needs</p>
+        <motion.h1
+          className="text-4xl font-bold mb-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >Welcome to MiMall</motion.h1>
+        <motion.p
+          className="text-xl mb-6"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >Your Modern, Intelligent Mall for All your Luxury Lifestyle needs</motion.p>
         <SearchBar />
       </div>
       <LuxuryCategories />
@@ -30,6 +45,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

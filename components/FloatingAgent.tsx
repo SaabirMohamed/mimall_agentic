@@ -232,7 +232,7 @@ export function FloatingAgent({ elevenLabsKey }: FloatingAgentProps) {
               exit={{ opacity: 0, y: 20 }}
               className="absolute bottom-full mb-4 left-1/2 transform -translate-x-1/2"
             >
-              <div className="bg-white rounded-lg shadow-lg p-3 text-sm max-w-xs text-center">
+              <div className="bg-transparent rounded-lg shadow-lg p-3 text-sm max-w-xs text-center">
                 {transcript}
               </div>
             </motion.div>
@@ -247,7 +247,7 @@ export function FloatingAgent({ elevenLabsKey }: FloatingAgentProps) {
               exit={{ opacity: 0, y: -20 }}
               className="absolute top-full mt-4 left-1/2 transform -translate-x-1/2"
             >
-              <div className="bg-white rounded-lg shadow-lg p-3 text-sm max-w-xs text-center">
+              <div className="bg-transparent rounded-lg shadow-lg p-3 text-sm max-w-xs text-center">
                 {response}
               </div>
             </motion.div>

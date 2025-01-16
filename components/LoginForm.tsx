@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface FormData {
   email: string;
@@ -21,6 +22,23 @@ export default function LoginForm() {
     email: '',
     password: ''
   })
+
+  const container = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0 }
+  }
 
   useEffect(() => {
     if (searchParams) {
@@ -65,7 +83,6 @@ export default function LoginForm() {
 
       if (error) throw error
 
-      // Update user profile with type
       if (data.user) {
         const { error: profileError } = await supabase
           .from('profiles')
@@ -88,22 +105,48 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-black/60 p-8 shadow-lg backdrop-blur-sm">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-white capitalize">
+    <motion.div 
+      className="flex min-h-screen flex-col items-center justify-start p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="w-full max-w-md space-y-8 rounded-2xl bg-black/60 p-8 shadow-lg backdrop-blur-sm"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div className="text-center" variants={item}>
+          <motion.h2 
+            className="text-3xl font-bold text-white capitalize"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
             {userType} Login
-          </h2>
-          <p className="mt-2 text-sm text-gray-300">
+          </motion.h2>
+          <motion.p 
+            className="mt-2 text-sm text-gray-300"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
             Welcome back to MiMall
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <div className="mt-8 space-y-6">
-          <button
+        <motion.div 
+          className="mt-8 space-y-6"
+          variants={item}
+        >
+          <motion.button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-lg bg-white px-4 py-3 text-black transition-colors hover:bg-gray-200 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-3 rounded-lg bg-transparent px-4 py-3 text-black transition-colors hover:bg-gray-200 disabled:opacity-50"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
@@ -124,24 +167,41 @@ export default function LoginForm() {
               />
             </svg>
             Continue with Google
-          </button>
+          </motion.button>
 
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            variants={item}
+          >
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-600"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-black/60 px-2 text-gray-300">Or continue with email</span>
+              <motion.span 
+                className="bg-black/60 px-2 text-gray-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                Or continue with email
+              </motion.span>
             </div>
-          </div>
+          </motion.div>
 
-          <form onSubmit={handlePasswordSignIn} className="mt-8 space-y-6">
-            <div className="space-y-4">
-              <div>
+          <motion.form 
+            onSubmit={handlePasswordSignIn} 
+            className="mt-8 space-y-6"
+            variants={item}
+          >
+            <motion.div 
+              className="space-y-4"
+              variants={item}
+            >
+              <motion.div variants={item}>
                 <label htmlFor="email" className="sr-only">
                   Email address
                 </label>
-                <input
+                <motion.input
                   id="email"
                   name="email"
                   type="email"
@@ -151,13 +211,15 @@ export default function LoginForm() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="block w-full rounded-lg border border-gray-600 bg-black/30 p-3 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Email address"
+                  whileFocus={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 />
-              </div>
-              <div>
+              </motion.div>
+              <motion.div variants={item}>
                 <label htmlFor="password" className="sr-only">
                   Password
                 </label>
-                <input
+                <motion.input
                   id="password"
                   name="password"
                   type="password"
@@ -167,34 +229,54 @@ export default function LoginForm() {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className="block w-full rounded-lg border border-gray-600 bg-black/30 p-3 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Password"
+                  whileFocus={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            {error && (
-              <div className="rounded-lg bg-red-500/10 p-3 text-sm text-red-500">
-                {error}
-              </div>
-            )}
+            <AnimatePresence>
+              {error && (
+                <motion.div 
+                  className="rounded-lg bg-red-500/10 p-3 text-sm text-red-500"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  {error}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            <div>
-              <button
+            <motion.div variants={item}>
+              <motion.button
                 type="submit"
                 disabled={isLoading}
                 className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 {isLoading ? 'Signing in...' : 'Sign in'}
-              </button>
-            </div>
-          </form>
+              </motion.button>
+            </motion.div>
+          </motion.form>
 
-          <div className="text-center text-sm">
-            <Link href="/forgot-password" className="text-blue-400 hover:text-blue-300">
-              Forgot your password?
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
+          <motion.div 
+            className="text-center text-sm"
+            variants={item}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
+              <Link href="/forgot-password" className="text-blue-400 hover:text-blue-300">
+                Forgot your password?
+              </Link>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   )
 }

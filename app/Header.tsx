@@ -6,10 +6,9 @@ import { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { usePathname } from 'next/navigation'
 
+const supabase = createClientComponentClient()
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userType, setUserType] = useState<string | null>(null)
-  const supabase = createClientComponentClient()
   const pathname = usePathname()
 
   useEffect(() => {
@@ -26,10 +25,8 @@ export default function Header() {
         .eq('user_id', session.user.id)
         .single()
       
-      setUserType(profile?.ui_state?.user_type || null)
     } else {
       setIsLoggedIn(false)
-      setUserType(null)
     }
   }
 
@@ -37,9 +34,9 @@ export default function Header() {
     <header className="bg-black bg-opacity-20 position-sticky top-0 shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center">
-              <Image src="/mimall.png" alt="MiMall Logo" width={120} height={40} className="block" />
+          <div className="flex  items-center">
+            <Link href="/" className="flex-shrink-0 flex items-center border-amber-600 border border-solid p-2 rounded-lg border-[5px] " >
+              <Image src="/mimall-bg.jpg" alt="MiMall Logo" width={120} height={40} className="block" />
             </Link>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link href="/" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
@@ -104,7 +101,7 @@ export default function Header() {
                 </div>
                 <Link
                   href="/login"
-                  className="bg-amber-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
+                  className="bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
                 >
                   Login
                 </Link>
@@ -112,11 +109,10 @@ export default function Header() {
             ) : (
               <Link
                 href="/login"
-                className="bg-amber-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-amber-600"
+                className="bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-amber-600"
                 onClick={async () => {
                   await supabase.auth.signOut()
                   setIsLoggedIn(false)
-                  setUserType(null)
                 }}
               >
                 Logout

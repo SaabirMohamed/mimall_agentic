@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -26,8 +27,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     checkUser()
-  }, [])
-
+  }, [checkUser])
   async function checkUser() {
     try {
       const { data: { session } } = await supabase.auth.getSession()
@@ -46,7 +46,7 @@ export default function DashboardPage() {
         setUserType(profile.ui_state.user_type)
       }
 
-      // Fetch dashboard stats here
+      //der Fetch dashboard stats here
       // For now using dummy data
       setStats({
         uploadedProducts: 12,
@@ -72,7 +72,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <motion.div
+      className="min-h-screen bg-black bg-opacity-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">{userType === 'seller' ? 'Seller Dashboard' : 'User Dashboard'}</h1>
@@ -189,6 +194,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
-    </div>
+    </motion.div>
   )
 }
