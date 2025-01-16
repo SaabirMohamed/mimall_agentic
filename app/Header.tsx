@@ -34,7 +34,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-md">
+    <header className="bg-black bg-opacity-20 position-sticky top-0 shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -45,26 +45,26 @@ export default function Header() {
               <Link href="/" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 Home
               </Link>
-              <Link href="/stores" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/stores" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 Stores
               </Link>
-              <Link href="/categories" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/categories" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 Categories
               </Link>
-              <Link href="/locations" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/locations" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 Locations
               </Link>
-              <Link href="/michina" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/michina" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 MiChina
               </Link>
-              <Link href="/hailoride" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/hailoride" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 HailoRide
               </Link>
-              <Link href="/miia" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/miia" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 MiiA Medical
               </Link>
               {isLoggedIn && (
-                <Link href="/dashboard" className="text-purple-600 hover:text-purple-800 px-3 py-2 rounded-md text-sm font-medium">
+                <Link href="/dashboard" className="text-amber-600 hover:text-purple-800 px-3 py-2 rounded-md text-sm font-medium">
                   Dashboard
                 </Link>
               )}
@@ -82,7 +82,7 @@ export default function Header() {
                     defaultChecked
                     className="form-radio text-purple-600"
                   />
-                  <label htmlFor="shopper" className="text-sm text-gray-700">Shopper</label>
+                  <label htmlFor="shopper" className="text-sm text-amber-600">Shopper</label>
                   
                   <input
                     type="radio"
@@ -91,20 +91,20 @@ export default function Header() {
                     value="seller"
                     className="form-radio text-purple-600 ml-2"
                   />
-                  <label htmlFor="seller" className="text-sm text-gray-700">Seller</label>
+                  <label htmlFor="seller" className="text-sm text-amber-600">Seller</label>
                   
                   <input
                     type="radio"
                     id="healthcare"
                     name="userType"
                     value="healthcare"
-                    className="form-radio text-purple-600 ml-2"
+                    className="form-radio text-purple-600 ml-2 p-2"
                   />
-                  <label htmlFor="healthcare" className="text-sm text-gray-700">Healthcare</label>
+                  <label htmlFor="healthcare" className="text-sm text-amber-600">Healthcare</label>
                 </div>
                 <Link
                   href="/login"
-                  className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
+                  className="bg-amber-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
                 >
                   Login
                 </Link>
