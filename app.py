@@ -173,6 +173,48 @@ async def ask_deepseekv3():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/api/publisher', methods=['POST'])
+def publisher():
+    try:
+        # Get JSON data from request
+        data = request.get_json()
+        
+        if not data or 'app_name' not in data:
+            return jsonify({'error': 'app_name is required'}), 400
+            
+        app_name = data['app_name']
+        
+        # Change to the specified directory
+        os.chdir(f'/home/saabir/ai/websites/{app_name}')
+        
+        # Construct the command
+        command = f"npm i && npm run build && pm2 delete {app_name} && pm2 start --name {app_name} npm -- run start && pm2 save"
+        
+        # Execute the command
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        
+        # Check if command was successful
+        if result.returncode == 0:
+            return jsonify({
+                'status': 'success',
+                'message': 'Deployment completed successfully',
+                'output': result.stdout
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': 'Deployment failed',
+                'error': result.stderr
+            }), 500
+            
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': 'Internal server error',
+            'error': str(e)
+        }), 500
+
+
 # Debug: Print all registered routes
 print("Server running on port 8000")
 print("Available endpoints:")
