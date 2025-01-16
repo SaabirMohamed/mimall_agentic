@@ -2,15 +2,71 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: Request) {
-  const requestUrl = new URL(request.url)
-  const code = requestUrl.searchParams.get('code')
+  try {
+    const requestUrl = new URL(request.url)
+    const code = requestUrl.searchParams.get('code')
+    const userType = requestUrl.searchParams.get('type') || 'shopper'
+    
+    // Get base URL for redirect
+    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
+    const host = requestUrl.host
+    const baseUrl = `${protocol}://${host}`
 
-  if (code) {
-    const supabase = createRouteHandlerClient({ cookies })
-    await supabase.auth.exchangeCodeForSession(code)
+    if (code) {
+      const cookieStore = cookies()
+      const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+      
+      // Exchange code for session
+      const { data: { session }, error: authError } = await supabase.auth.exchangeCodeForSession(code)
+      
+      if (authError) throw authError
+
+      if (session?.user) {
+        // Check if user exists in mimall_client
+        const { data: existingProfile } = await supabase
+          .from('mimall_client')
+          .select('id')
+          .eq('user_id', session.user.id)
+          .single()
+
+        if (!existingProfile) {
+          // Create new profile if it doesn't exist
+          const { error: profileError } = await supabase
+            .from('mimall_client')
+            .insert({
+              user_id: session.user.id,
+              email: session.user.email,
+              first_name: '',
+              last_name: '',
+              avatar_url: session.user.user_metadata?.avatar_url || '',
+              session_id: session.access_token,
+              ui_state: { user_type: userType }
+            })
+
+          if (profileError) throw profileError
+        } else {
+          // Update session_id for existing profile
+          const { error: updateError } = await supabase
+            .from('mimall_client')
+            .update({
+              session_id: session.access_token,
+              updated_at: new Date().toISOString()
+            })
+            .eq('user_id', session.user.id)
+
+          if (updateError) throw updateError
+        }
+      }
+    }
+
+    // Redirect to dashboard after successful auth and profile creation/update
+    return NextResponse.redirect(`${baseUrl}/dashboard`)
+  } catch (error) {
+    console.error('Auth callback error:', error)
+    // Redirect to login page with error
+    return NextResponse.redirect(`${request.url.split('/auth')[0]}/login?error=auth_callback_failed`)
   }
-
-  // URL to redirect to after sign in process completes
-  return NextResponse.redirect(new URL('/dashboard', requestUrl.origin))
 }

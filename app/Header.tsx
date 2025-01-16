@@ -1,176 +1,130 @@
 'use client'
 
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Home, ShoppingBag, Grid, MapPin, Globe, Truck, Stethoscope, LogOut, LayoutDashboard, ShoppingCart } from 'lucide-react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Link from 'next/link'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { usePathname } from 'next/navigation'
 
-const Header = () => {
-  const router = useRouter();
-  const supabase = createClientComponentClient();
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [userType, setUserType] = React.useState('shopper');
+export default function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userType, setUserType] = useState<string | null>(null)
+  const supabase = createClientComponentClient()
+  const pathname = usePathname()
 
-  React.useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsLoggedIn(!!session);
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('id, user_type, updated_at')
-          .eq('id', session.user.id)
-          .single();
-        if (profile) {
-          setUserType(profile.user_type);
-        }
-      }
-    };
-    checkAuth();
+  useEffect(() => {
+    checkUser()
+  }, [pathname])
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setIsLoggedIn(!!session);
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('id, user_type, updated_at')
-          .eq('id', session.user.id)
-          .single();
-        if (profile) {
-          setUserType(profile.user_type);
-        }
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase]);
-
-  const handleLogin = () => {
-    router.push(`/login?type=${userType}`);
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-  };
+  async function checkUser() {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      setIsLoggedIn(true)
+      const { data: profile } = await supabase
+        .from('mimall_client')
+        .select('ui_state')
+        .eq('user_id', session.user.id)
+        .single()
+      
+      setUserType(profile?.ui_state?.user_type || null)
+    } else {
+      setIsLoggedIn(false)
+      setUserType(null)
+    }
+  }
 
   return (
-    <header className="text-gray-200 py-4 sticky top-0 z-50">
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center px-4">
-          <Link href="/" className="text-3xl font-bold text-gray-200">
-            <span>MiMall</span>
-          </Link>
-
-          <nav className="hidden md:flex space-x-6">
-            <Link href="/" className="flex items-center hover:text-gray-300">
-              <Home className="mr-1" size={18} /> Home
+    <header className="bg-white shadow-md">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex-shrink-0 flex items-center">
+              <Image src="/mimall.png" alt="MiMall Logo" width={120} height={40} className="block" />
             </Link>
-            <Link href="/stores" className="flex items-center hover:text-gray-300">
-              <ShoppingBag className="mr-1" size={18} /> Stores
-            </Link>
-            <Link href="/categories" className="flex items-center hover:text-gray-300">
-              <Grid className="mr-1" size={18} /> Categories
-            </Link>
-            <Link href="/locations" className="flex items-center hover:text-gray-300">
-              <MapPin className="mr-1" size={18} /> Locations
-            </Link>
-            <Link href="/michina" className="flex items-center hover:text-gray-300">
-              <Globe className="mr-1" size={18} /> MiChina
-            </Link>
-            <Link href="/hailoride" className="flex items-center hover:text-gray-300">
-              <Truck className="mr-1" size={18} /> HailoRide
-            </Link>
-            <Link href="/miia" className="flex items-center hover:text-gray-300">
-              <Stethoscope className="mr-1" size={18} /> MiiA Medical
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            {!isLoggedIn ? (
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-3 bg-gray-800/50 p-2 rounded">
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="userType"
-                      value="shopper"
-                      checked={userType === 'shopper'}
-                      onChange={(e) => setUserType(e.target.value)}
-                      className="mr-1"
-                    />
-                    <span className="text-sm">Shopper</span>
-                  </label>
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="userType"
-                      value="seller"
-                      checked={userType === 'seller'}
-                      onChange={(e) => setUserType(e.target.value)}
-                      className="mr-1"
-                    />
-                    <span className="text-sm">Seller</span>
-                  </label>
-                  <label className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="userType"
-                      value="healthcare"
-                      checked={userType === 'healthcare'}
-                      onChange={(e) => setUserType(e.target.value)}
-                      className="mr-1"
-                    />
-                    <span className="text-sm">Healthcare</span>
-                  </label>
-                </div>
-                <button
-                  onClick={handleLogin}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors"
-                >
-                  {userType === 'shopper' 
-                    ? 'Shopper Login' 
-                    : userType === 'seller' 
-                    ? 'Seller Login' 
-                    : 'Healthcare Login'}
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                {userType === 'shopper' && (
-                  <Link href="/cart" className="hover:text-gray-300">
-                    <ShoppingCart size={24} />
-                  </Link>
-                )}
-                <Link href="/dashboard" className="hover:text-gray-300">
-                  <LayoutDashboard size={24} />
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <Link href="/" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                Home
+              </Link>
+              <Link href="/stores" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                Stores
+              </Link>
+              <Link href="/categories" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                Categories
+              </Link>
+              <Link href="/locations" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                Locations
+              </Link>
+              <Link href="/michina" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                MiChina
+              </Link>
+              <Link href="/hailoride" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                HailoRide
+              </Link>
+              <Link href="/miia" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+                MiiA Medical
+              </Link>
+              {isLoggedIn && (
+                <Link href="/dashboard" className="text-purple-600 hover:text-purple-800 px-3 py-2 rounded-md text-sm font-medium">
+                  Dashboard
                 </Link>
-                {userType === 'healthcare' && (
-                  <Link 
-                    href="https://medical.ageye.pro" 
-                    className="hover:text-gray-300"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Stethoscope size={24} />
-                  </Link>
-                )}
-                <button
-                  onClick={handleLogout}
-                  className="hover:text-gray-300"
+              )}
+            </div>
+          </div>
+          <div className="flex items-center">
+            {!isLoggedIn ? (
+              <>
+                <div className="flex space-x-2 mr-4">
+                  <input
+                    type="radio"
+                    id="shopper"
+                    name="userType"
+                    value="shopper"
+                    defaultChecked
+                    className="form-radio text-purple-600"
+                  />
+                  <label htmlFor="shopper" className="text-sm text-gray-700">Shopper</label>
+                  
+                  <input
+                    type="radio"
+                    id="seller"
+                    name="userType"
+                    value="seller"
+                    className="form-radio text-purple-600 ml-2"
+                  />
+                  <label htmlFor="seller" className="text-sm text-gray-700">Seller</label>
+                  
+                  <input
+                    type="radio"
+                    id="healthcare"
+                    name="userType"
+                    value="healthcare"
+                    className="form-radio text-purple-600 ml-2"
+                  />
+                  <label htmlFor="healthcare" className="text-sm text-gray-700">Healthcare</label>
+                </div>
+                <Link
+                  href="/login"
+                  className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
                 >
-                  <LogOut size={24} />
-                </button>
-              </div>
+                  Login
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-amber-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-amber-600"
+                onClick={async () => {
+                  await supabase.auth.signOut()
+                  setIsLoggedIn(false)
+                  setUserType(null)
+                }}
+              >
+                Logout
+              </Link>
             )}
           </div>
         </div>
-      </div>
+      </nav>
     </header>
-  );
-};
-
-export default Header;
+  )
+}
