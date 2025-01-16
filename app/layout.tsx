@@ -19,6 +19,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <VideoBackground />
           
+          {/* Dark Overlay */}
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-5"></div>
           {/* Main Content */}
           <div className="relative z-10">
             <Header />

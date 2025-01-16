@@ -47,19 +47,19 @@ export default function DashboardPage() {
         
         {/* Metrics Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="glass p-6 rounded-lg">
+          <div className="bg-black bg-opacity-70 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Uploaded Products</h3>
             <p className="text-2xl">{metrics.uploadedProducts}</p>
           </div>
-          <div className="glass p-6 rounded-lg">
+          <div className="bg-black bg-opacity-70 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Pending Approvals</h3>
             <p className="text-2xl">{metrics.pendingApprovals}</p>
           </div>
-          <div className="glass p-6 rounded-lg">
+          <div className="bg-black bg-opacity-70 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">AI-Optimized Listings</h3>
             <p className="text-2xl">{metrics.optimizedListings}</p>
           </div>
-          <div className="glass p-6 rounded-lg">
+          <div className="bg-black bg-opacity-70 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">Total Sales</h3>
             <p className="text-2xl currency">{metrics.totalSales}</p>
           </div>

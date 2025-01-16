@@ -55,14 +55,14 @@ const Header = () => {
               <li>
                 <button 
                   onClick={handleLogout}
-                  className="flex items-center hover:text-gray-200"
+                  className="text-amber-500 flex items-center hover:text-red-200"
                 >
                   <LogOut className="mr-1" size={18} /> Logout
                 </button>
               </li>
             </>
           ) : (
-            <li><Link href="/login" className="flex items-center hover:text-gray-200">Login</Link></li>
+            <li><Link href="/login" className="flex text-amber-500 items-center hover:text-red-200">Login</Link></li>
           )}
         </ul>
       </nav>

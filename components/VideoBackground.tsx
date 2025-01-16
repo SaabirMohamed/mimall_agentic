@@ -8,26 +8,7 @@ export default function VideoBackground() {
   const [videoSrc, setVideoSrc] = useState('/mimall-default-bg.mp4')
 
   useEffect(() => {
-    if (pathname === '/michina') {
-      setVideoSrc('/mimall-china-bg.mp4')
-    } else if (pathname === '/hailoride') {
-      setVideoSrc('https://hailoride.com/videobg/contact_us_bg.mp4')
-    }
-    else if (pathname === '/categories') {
-      setVideoSrc('/mimall-categories-bg.mp4')
-    }
-    else if (pathname === '/locations') {
-      setVideoSrc('https://hailoride.com/videobg/contact_us_bg.mp4')
-    }
-else if (pathname === '/miia') {
-      setVideoSrc('/mimall-miia-bg.mp4')
-    } 
-    else if (pathname === '/stores') {
-      setVideoSrc('/mimall-stores.bg.mp4')
-    }
-     else {
-      setVideoSrc('/mimall-bg.mp4')
-    }
+    setVideoSrc('/mimall-default-bg.mp4')
   }, [pathname])
 
   return (
