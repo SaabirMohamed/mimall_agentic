@@ -10,10 +10,11 @@ export async function GET(request: Request) {
     const code = requestUrl.searchParams.get('code')
     const userType = requestUrl.searchParams.get('type') || 'shopper'
     
-    // Get base URL for redirect
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
-    const host = requestUrl.host
-    const baseUrl = `${protocol}://${host}`
+    // Determine the base URL based on environment
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+      (process.env.NODE_ENV === 'production' 
+        ? 'https://mimall.ageye.pro' 
+        : 'http://localhost:8084')
 
     if (code) {
       const cookieStore = cookies()
@@ -67,6 +68,10 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Auth callback error:', error)
     // Redirect to login page with error
-    return NextResponse.redirect(`${request.url.split('/auth')[0]}/login?error=auth_callback_failed`)
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+      (process.env.NODE_ENV === 'production' 
+        ? 'https://mimall.ageye.pro' 
+        : 'http://localhost:8084')
+    return NextResponse.redirect(`${baseUrl}/login?error=auth_callback_failed`)
   }
 }
