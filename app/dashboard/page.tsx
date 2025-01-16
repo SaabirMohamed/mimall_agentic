@@ -38,7 +38,7 @@ export default function DashboardPage() {
       })
     }
     checkAuth()
-  }, [router])
+  }, [router, supabase.auth])
 
   return (
     <div className="min-h-screen text-white p-6">
