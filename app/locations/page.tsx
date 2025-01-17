@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Search } from 'lucide-react'
+import Image from 'next/image'
 import VideoBackground from '../../components/VideoBackground'
 import StoreModal from '../../components/StoreModal'
 
@@ -244,13 +245,14 @@ export default function LocationsPage() {
                 onClick={() => setSelectedStore(store)}
                 className="group cursor-pointer animate-slide-up"
               >
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-4">
-                  <img
+                <div className="relative h-64 overflow-hidden rounded-lg">
+                  <Image
                     src={store.image}
                     alt={store.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className="text-xl font-semibold text-white mb-1">{store.name}</h3>
                     <p className="text-sm text-gray-300">{store.type}</p>

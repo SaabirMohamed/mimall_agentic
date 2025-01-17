@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 
 interface LocationMapProps {
   lat: number
@@ -12,7 +12,6 @@ interface LocationMapProps {
 export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h-[200px] rounded-lg" }: LocationMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<google.maps.Map | null>(null)
-  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(null)
 
   const initializeMap = useCallback(async () => {
     if (!mapRef.current) return
@@ -42,10 +41,6 @@ export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h
 
       mapInstanceRef.current = map;
 
-      // Initialize InfoWindow
-      const infoWindow = new window.google.maps.InfoWindow();
-      setInfoWindow(infoWindow);
-
       // Add marker for the specified location
       new google.maps.Marker({
         map,
@@ -65,7 +60,6 @@ export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h
     return () => {
       // Cleanup map instance when component unmounts
       if (mapInstanceRef.current) {
-        // @ts-ignore
         mapInstanceRef.current = null;
       }
     };

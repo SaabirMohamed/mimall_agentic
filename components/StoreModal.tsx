@@ -1,6 +1,7 @@
 'use client'
 
 import { X, Clock, Phone, Globe, MapPin } from 'lucide-react'
+import Image from 'next/image'
 import LocationMap from './LocationMap'
 
 interface Store {
@@ -46,10 +47,12 @@ export default function StoreModal({ store, onClose }: StoreModalProps) {
         <div className="grid md:grid-cols-2">
           {/* Left Column - Image */}
           <div className="relative h-64 md:h-full">
-            <img
+            <Image
               src={store.image}
               alt={store.name}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent" />
           </div>
