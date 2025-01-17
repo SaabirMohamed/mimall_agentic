@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
@@ -25,10 +25,7 @@ export default function DashboardPage() {
   const supabase = createClientComponentClient()
   const router = useRouter()
 
-  useEffect(() => {
-    checkUser()
-  }, [checkUser])
-  async function checkUser() {
+  const checkUser = useCallback(async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) {
@@ -59,7 +56,11 @@ export default function DashboardPage() {
       console.error('Error:', error)
       setLoading(false)
     }
-  }
+  }, [supabase, router])
+
+  useEffect(() => {
+    checkUser()
+  }, [checkUser])
 
   if (loading) {
     return (

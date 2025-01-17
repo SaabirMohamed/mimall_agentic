@@ -30,13 +30,13 @@ const Map = ({ pickup, dropoff, onRouteCalculated }: MapProps) => {
         zoom: 15,
         styles: [
           {
-            featureType: google.maps.MapTypeStyleFeatureType.ALL,
-            elementType: google.maps.MapTypeStyleElementType.GEOMETRY,
+            featureType: google.maps.MapTypeStyleFeatureType.All,
+            elementType: google.maps.MapTypeStyleElementType.Geometry,
             stylers: [{ saturation: -100 }]
           },
           {
-            featureType: google.maps.MapTypeStyleFeatureType.POI,
-            elementType: google.maps.MapTypeStyleElementType.LABELS,
+            featureType: google.maps.MapTypeStyleFeatureType.PointOfInterest,
+            elementType: google.maps.MapTypeStyleElementType.Labels,
             stylers: [{ visibility: 'off' }]
           }
         ],

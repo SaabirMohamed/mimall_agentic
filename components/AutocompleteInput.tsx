@@ -20,7 +20,7 @@ declare global {
               country: string;
             };
           };
-          PlaceResult: any;
+          PlaceResult: google.maps.places.PlaceResult;
         };
         event: {
           clearInstanceListeners(instance: object): void;

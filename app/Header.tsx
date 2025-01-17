@@ -19,11 +19,12 @@ export default function Header() {
     const { data: { session } } = await supabase.auth.getSession()
     if (session) {
       setIsLoggedIn(true)
-      const { data: profile } = await supabase
+      // Commented out unused profile query - can be re-enabled when needed
+      /*const { data: profile } = await supabase
         .from('mimall_client')
         .select('ui_state')
         .eq('user_id', session.user.id)
-        .single()
+        .single()*/
       
     } else {
       setIsLoggedIn(false)
