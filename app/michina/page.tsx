@@ -15,24 +15,24 @@ const MiChinaPage = () => {
       </div>
 
       <div className="grid grid-cols-1 text-gray-200 md:grid-cols-3 gap-8 mb-12">
-        <div className="bg-gray-800 shadow-md rounded-lg p-6 text-center border border-red-600 animate-slide-up [animation-delay:200ms]">
+        <div className="shadow-md rounded-lg p-6 text-center border border-red-600 animate-slide-up [animation-delay:200ms]">
           <ShoppingBag className="mx-auto mb-4 text-red-600" size={48} />
           <h2 className="text-2xl font-semibold mb-2">Vast Selection</h2>
           <p>Browse through thousands of products from local South African China Mall stores.</p>
         </div>
-        <div className="bg-gray-800 shadow-md rounded-lg p-6 text-center border border-red-600 animate-slide-up [animation-delay:400ms]">
+        <div className=" shadow-md rounded-lg p-6 text-center border border-red-600 animate-slide-up [animation-delay:400ms]">
           <Truck className="mx-auto mb-4 text-red-600" size={48} />
           <h2 className="text-2xl font-semibold mb-2">Fast Delivery</h2>
           <p>Get your favorite China Mall products delivered right to your doorstep.</p>
         </div>
-        <div className="bg-gray-800 shadow-md rounded-lg p-6 text-center border border-red-600 animate-slide-up [animation-delay:600ms]">
+        <div className=" shadow-md rounded-lg p-6 text-center border border-red-600 animate-slide-up [animation-delay:600ms]">
           <Clock className="mx-auto mb-4 text-red-600" size={48} />
           <h2 className="text-2xl font-semibold mb-2">On-Demand</h2>
           <p>Shop whenever you want, with our 24/7 online marketplace.</p>
         </div>
       </div>
 
-      <div className="bg-gray-800 p-8 rounded-lg mb-12 border border-red-600 animate-slide-up [animation-delay:800ms]">
+      <div className=" p-8 rounded-lg mb-12 border border-red-600 animate-slide-up [animation-delay:800ms]">
         <h2 className="text-3xl mb-4 text-center text-red-600">Why Choose MiChina?</h2>
         <ul className="list-disc list-inside space-y-2 text-gray-200">
           <li>Access to a wide range of affordable products</li>

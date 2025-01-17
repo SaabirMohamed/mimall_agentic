@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState , useCallback} from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 interface LocationMapProps {
   lat: number
@@ -15,9 +15,23 @@ export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(null)
 
   const initializeMap = useCallback(async () => {
-    if (!mapRef.current) return;
+    if (!mapRef.current) return
 
     try {
+      // Load Google Maps API if not already loaded
+      if (typeof window.google === 'undefined') {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+
+        // Wait for the script to load
+        await new Promise((resolve) => {
+          script.onload = resolve;
+        });
+      }
+
       // Initialize the map
       const map = new window.google.maps.Map(mapRef.current, {
         center: { lat, lng },
@@ -36,7 +50,7 @@ export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h
       new google.maps.Marker({
         map,
         position: { lat, lng },
-        // title: 'Current Location'
+        label: 'Current Location'
       });
 
     } catch (error) {
@@ -45,21 +59,17 @@ export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h
   }, [lat, lng, zoom]);
 
   useEffect(() => {
-    if (typeof window.google === 'undefined') {
-      const script = document.createElement('script')
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`
-      script.async = true
-      script.defer = true
-      document.head.appendChild(script)
-
-      script.onload = initializeMap
-      return () => {
-        document.head.removeChild(script)
+    console.log('API Key:', process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
+    initializeMap();
+    
+    return () => {
+      // Cleanup map instance when component unmounts
+      if (mapInstanceRef.current) {
+        // @ts-ignore
+        mapInstanceRef.current = null;
       }
-    } else {
-      initializeMap()
-    }
-  }, [lat, lng, zoom, initializeMap])
+    };
+  }, [initializeMap]);
 
   return (
     <div ref={mapRef} className={className} />
