@@ -95,9 +95,9 @@ const HailoRidePage = () => {
           </button>
         </div>
 
-        <div className="bg-black bg-opacity-70 p-6 rounded-lg shadow-md mt-4">
+        <div className="bg-white rounded-lg shadow-lg p-6 mt-4">
           <h2 className="text-2xl font-semibold mb-4">Trip Details</h2>
-          <div className="h-64 bg-gray-200 mb-4 rounded">
+          <div className="h-64 w-full bg-gray-100 mb-4 rounded-lg overflow-hidden">
             <Map />
           </div>
           <div className="space-y-2">
@@ -107,15 +107,17 @@ const HailoRidePage = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/2 h-screen">
-        <Map
-          pickup={pickupLocation?.geometry?.location?.toJSON()}
-          dropoff={dropoffLocation?.geometry?.location?.toJSON()}
-          onRouteCalculated={(distance, duration) => {
-            setDistance(distance)
-            setDuration(duration)
-          }}
-        />
+      <div className="w-1/2 h-screen relative">
+        <div className="absolute inset-0">
+          <Map
+            pickup={pickupLocation?.geometry?.location?.toJSON()}
+            dropoff={dropoffLocation?.geometry?.location?.toJSON()}
+            onRouteCalculated={(distance, duration) => {
+              setDistance(distance);
+              setDuration(duration);
+            }}
+          />
+        </div>
       </div>
     </div>
   )

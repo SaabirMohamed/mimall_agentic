@@ -15,46 +15,54 @@ const Map = ({ pickup, dropoff, onRouteCalculated }: MapProps) => {
   const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>()
 
   useEffect(() => {
+    const loader = new Loader({
+      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+      version: 'weekly',
+      libraries: ['places']
+    });
+
     const initMap = async () => {
-      const loader = new Loader({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-        version: 'weekly',
-        libraries: ['places', 'routes']
-      })
+      const google = await loader.load();
+      if (!mapRef.current) return;
 
-      const { Map } = await loader.importLibrary('maps')
-      const { DirectionsService, DirectionsRenderer } = await loader.importLibrary('routes')
-
-      const mapOptions: google.maps.MapOptions = {
-        center: { lat: -26.2041, lng: 28.0473 }, // Johannesburg coordinates
-        zoom: 12,
-        mapId: 'DEMO_MAP_ID',
-        disableDefaultUI: true,
+      const mapInstance = new google.maps.Map(mapRef.current, {
+        center: pickup || { lat: -29.8587, lng: 31.0218 }, // Default to Durban
+        zoom: 15,
         styles: [
           {
-            featureType: 'poi' as google.maps.MapTypeStyleFeatureType,
+            featureType: google.maps.MapTypeStyleFeatureType.ALL,
+            elementType: google.maps.MapTypeStyleElementType.GEOMETRY,
+            stylers: [{ saturation: -100 }]
+          },
+          {
+            featureType: google.maps.MapTypeStyleFeatureType.POI,
+            elementType: google.maps.MapTypeStyleElementType.LABELS,
             stylers: [{ visibility: 'off' }]
           }
-        ]
-      }
+        ],
+        disableDefaultUI: true,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false
+      });
 
-      const mapInstance = new Map(mapRef.current!, mapOptions)
-      const directionsServiceInstance = new DirectionsService()
-      const directionsRendererInstance = new DirectionsRenderer({
+      const directionsServiceInstance = new google.maps.DirectionsService();
+      const directionsRendererInstance = new google.maps.DirectionsRenderer({
         map: mapInstance,
         suppressMarkers: true,
         polylineOptions: {
-          strokeColor: '#22c55e',
-          strokeWeight: 4
+          strokeColor: '#4A90E2',
+          strokeWeight: 6
         }
-      })
+      });
 
-      setDirectionsService(directionsServiceInstance)
-      setDirectionsRenderer(directionsRendererInstance)
-    }
+      setDirectionsService(directionsServiceInstance);
+      setDirectionsRenderer(directionsRendererInstance);
+    };
 
-    initMap()
-  }, [])
+    initMap();
+  }, [pickup]);
 
   const calculateRoute = useCallback(() => {
     if (pickup && dropoff && directionsService && directionsRenderer) {
