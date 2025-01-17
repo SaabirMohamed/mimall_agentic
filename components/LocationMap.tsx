@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 
 interface LocationMapProps {
   lat: number
@@ -12,6 +12,30 @@ interface LocationMapProps {
 export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h-[200px] rounded-lg" }: LocationMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<google.maps.Map | null>(null)
+
+  const initializeMap = useCallback(() => {
+    if (!mapRef.current) return
+
+    const mapOptions: google.maps.MapOptions = {
+      center: { lat, lng },
+      zoom,
+      styles: [
+        {
+          featureType: "all" as google.maps.MapTypeStyleFeatureType,
+          elementType: "all" as google.maps.MapTypeStyleElementType,
+          stylers: [{ saturation: -100 }]
+        }
+      ]
+    }
+
+    const map = new window.google.maps.Map(mapRef.current, mapOptions)
+    mapInstanceRef.current = map
+
+    new window.google.maps.Marker({
+      position: { lat, lng },
+      map,
+    })
+  }, [lat, lng, zoom])
 
   useEffect(() => {
     if (typeof window.google === 'undefined') {
@@ -28,32 +52,7 @@ export default function LocationMap({ lat, lng, zoom = 15, className = "w-full h
     } else {
       initializeMap()
     }
-  }, [lat, lng])
-
-  const initializeMap = () => {
-    if (!mapRef.current) return
-
-    const mapOptions = {
-      center: { lat, lng },
-      zoom,
-      styles: [
-        {
-          featureType: google.maps.MapTypeStyleFeatureType.All,
-          elementType: google.maps.MapTypeStyleElementType.All,
-          stylers: [{ saturation: -100 }]
-        }
-      ]
-    }
-
-    const map = new window.google.maps.Map(mapRef.current, mapOptions)
-    mapInstanceRef.current = map
-
-    new window.google.maps.Marker({
-      position: { lat, lng },
-      map,
-      animation: window.google.maps.Animation.DROP
-    })
-  }
+  }, [lat, lng, zoom, initializeMap])
 
   return <div ref={mapRef} className={className} />
 }

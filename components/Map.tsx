@@ -1,64 +1,96 @@
 'use client'
 
-import { useState } from 'react'
-import { MapPin } from 'lucide-react'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { Loader } from '@googlemaps/js-api-loader'
 
-export default function Map() {
-  const [origin, setOrigin] = useState('')
-  const [destination, setDestination] = useState('')
-
-  return (
-    <div className="h-[500px] w-full rounded-lg overflow-hidden relative">
-      {/* Map Container */}
-      <div className="absolute inset-0 bg-gray-200 animate-pulse">
-        {/* Map will be rendered here */}
-      </div>
-
-      {/* Search Controls */}
-      <div className="absolute top-4 left-4 right-4 glass p-4 rounded-lg space-y-2">
-        <div className="flex items-center gap-2">
-          <MapPin className="text-gold-500" />
-          <input
-            type="text"
-            placeholder="Enter pickup location"
-            value={origin}
-            onChange={(e) => setOrigin(e.target.value)}
-            className="flex-1 bg-transparent outline-none placeholder:text-gray-200"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <MapPin className="text-gold-500" />
-          <input
-            type="text"
-            placeholder="Enter destination"
-            value={destination}
-            onChange={(e) => setDestination(e.target.value)}
-            className="flex-1 bg-transparent outline-none placeholder:text-gray-200"
-          />
-        </div>
-      </div>
-
-      {/* Ride Options */}
-      <div className="absolute bottom-4 left-4 right-4 glass p-4 rounded-lg">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
-            <div className="text-gold-500">Standard</div>
-            <div className="text-sm text-gray-200">ZAR 50-70</div>
-          </button>
-          <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
-            <div className="text-gold-500">Premium</div>
-            <div className="text-sm text-gray-200">ZAR 80-100</div>
-          </button>
-          <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
-            <div className="text-gold-500">XL</div>
-            <div className="text-sm text-gray-200">ZAR 100-120</div>
-          </button>
-          <button className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
-            <div className="text-gold-500">Bike</div>
-            <div className="text-sm text-gray-200">ZAR 30-50</div>
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+interface MapProps {
+  pickup?: google.maps.LatLngLiteral
+  dropoff?: google.maps.LatLngLiteral
+  onRouteCalculated?: (distance: number, duration: number) => void
 }
+
+const Map = ({ pickup, dropoff, onRouteCalculated }: MapProps) => {
+  const mapRef = useRef<HTMLDivElement>(null)
+  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService>()
+  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>()
+
+  useEffect(() => {
+    const initMap = async () => {
+      const loader = new Loader({
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+        version: 'weekly',
+        libraries: ['places', 'routes']
+      })
+
+      const { Map } = await loader.importLibrary('maps')
+      const { DirectionsService, DirectionsRenderer } = await loader.importLibrary('routes')
+
+      const mapOptions: google.maps.MapOptions = {
+        center: { lat: -26.2041, lng: 28.0473 }, // Johannesburg coordinates
+        zoom: 12,
+        mapId: 'DEMO_MAP_ID',
+        disableDefaultUI: true,
+        styles: [
+          {
+            featureType: 'poi' as google.maps.MapTypeStyleFeatureType,
+            stylers: [{ visibility: 'off' }]
+          }
+        ]
+      }
+
+      const mapInstance = new Map(mapRef.current!, mapOptions)
+      const directionsServiceInstance = new DirectionsService()
+      const directionsRendererInstance = new DirectionsRenderer({
+        map: mapInstance,
+        suppressMarkers: true,
+        polylineOptions: {
+          strokeColor: '#22c55e',
+          strokeWeight: 4
+        }
+      })
+
+      setDirectionsService(directionsServiceInstance)
+      setDirectionsRenderer(directionsRendererInstance)
+    }
+
+    initMap()
+  }, [])
+
+  const calculateRoute = useCallback(() => {
+    if (pickup && dropoff && directionsService && directionsRenderer) {
+      directionsService.route(
+        {
+          origin: pickup,
+          destination: dropoff,
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK && result) {
+            directionsRenderer.setDirections(result)
+
+            const route = result.routes[0]
+            if (route && route.legs[0]) {
+              const distance = route.legs[0].distance?.value || 0
+              const duration = route.legs[0].duration?.value || 0
+
+              // Convert to km and minutes
+              if (onRouteCalculated) {
+                onRouteCalculated(distance / 1000, duration / 60)
+              }
+            }
+          }
+        }
+      )
+    }
+  }, [pickup, dropoff, directionsService, directionsRenderer, onRouteCalculated])
+
+  useEffect(() => {
+    if (directionsService && pickup && dropoff) {
+      calculateRoute()
+    }
+  }, [directionsService, pickup, dropoff, calculateRoute])
+
+  return <div ref={mapRef} className="w-full h-full" />
+}
+
+export default Map

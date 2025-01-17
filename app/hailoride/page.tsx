@@ -1,19 +1,23 @@
 'use client'
 
 import React, { useState } from 'react'
-import { MapPin, DollarSign } from 'lucide-react'
+import { DollarSign } from 'lucide-react'
 import Map from '../../components/Map'
+import AutocompleteInput from '../../components/AutocompleteInput'
 
 const HailoRidePage = () => {
   const [requestType, setRequestType] = useState('ride')
   const [vehicleType, setVehicleType] = useState('car')
+  const [pickupLocation, setPickupLocation] = useState<google.maps.places.PlaceResult | null>(null)
+  const [dropoffLocation, setDropoffLocation] = useState<google.maps.places.PlaceResult | null>(null)
+  const [distance, setDistance] = useState(5.2)
+  const [duration, setDuration] = useState(15)
 
   return (
-    <div className="container mx-auto my-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">HailoRide</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-black bg-opacity-70 p-6 rounded-lg shadow-md">
+    <div className="relative h-screen font-marvel flex">
+      <div className="w-1/2 p-4">
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h1 className="text-3xl md:text-4xl font-marvel mb-6 text-center">HailoRide</h1>
           <h2 className="text-2xl font-semibold mb-4">Request a {requestType === 'ride' ? 'Ride' : 'Delivery'}</h2>
           
           <div className="mb-4">
@@ -45,23 +49,26 @@ const HailoRidePage = () => {
               <option value="car">Car</option>
               <option value="pickup">Pickup</option>
               <option value="truck">Truck</option>
+              <option value="bucky">Bucky (Van)</option>
+              <option value="trailer">Trailer</option>
+              <option value="durbanTaxi">Durban Taxi</option>
             </select>
           </div>
 
           <div className="mb-4">
             <label className="block mb-2">Pick-up Location</label>
-            <div className="flex items-center border rounded p-2">
-              <MapPin className="mr-2 text-gray-200" />
-              <input type="text" className="w-full outline-none" placeholder="Enter pick-up address" />
-            </div>
+            <AutocompleteInput
+              placeholder="Enter pick-up address"
+              onPlaceSelected={(place) => setPickupLocation(place)}
+            />
           </div>
 
           <div className="mb-4">
             <label className="block mb-2">Drop-off Location</label>
-            <div className="flex items-center border rounded p-2">
-              <MapPin className="mr-2 text-gray-200" />
-              <input type="text" className="w-full outline-none" placeholder="Enter drop-off address" />
-            </div>
+            <AutocompleteInput
+              placeholder="Enter drop-off address"
+              onPlaceSelected={(place) => setDropoffLocation(place)}
+            />
           </div>
 
           {requestType === 'delivery' && (
@@ -88,17 +95,27 @@ const HailoRidePage = () => {
           </button>
         </div>
 
-        <div className="bg-black bg-opacity-70 p-6 rounded-lg shadow-md">
+        <div className="bg-black bg-opacity-70 p-6 rounded-lg shadow-md mt-4">
           <h2 className="text-2xl font-semibold mb-4">Trip Details</h2>
           <div className="h-64 bg-gray-200 mb-4 rounded">
             <Map />
           </div>
           <div className="space-y-2">
-            <p><strong>Distance:</strong> 5.2 km</p>
-            <p><strong>Estimated Time:</strong> 15 minutes</p>
+            <p><strong>Distance:</strong> {distance.toFixed(1)} km</p>
+            <p><strong>Estimated Time:</strong> {Math.round(duration)} minutes</p>
             <p><strong>Vehicle Type:</strong> {vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)}</p>
           </div>
         </div>
+      </div>
+      <div className="w-1/2 h-screen">
+        <Map
+          pickup={pickupLocation?.geometry?.location?.toJSON()}
+          dropoff={dropoffLocation?.geometry?.location?.toJSON()}
+          onRouteCalculated={(distance, duration) => {
+            setDistance(distance)
+            setDuration(duration)
+          }}
+        />
       </div>
     </div>
   )
