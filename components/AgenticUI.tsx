@@ -56,7 +56,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
             {
               session_id: newSessionId,
               user_id: session?.user?.email || null,
-              html: '<div class="p-4 text-center text-white">Session initialized. Click the circle to begin.</div>',
+              html: '',
               current_route: typeof window !== 'undefined' ? window.location.pathname : '/'
             }
           ])
@@ -212,7 +212,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
 
   return (
     <>
-      {uiState?.html ? (
+      {uiState?.html? (
         <div 
           dangerouslySetInnerHTML={{ __html: uiState.html }} 
           style={{ width: '100%', minHeight: '100vh' }}
