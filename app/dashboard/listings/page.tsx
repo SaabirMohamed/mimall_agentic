@@ -77,7 +77,7 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen text-white p-6">
-      <div className="max-w-7xl mx-auto glass">
+      <div className="max-w-7xl mx-auto glass p-6">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Product Listings</h1>
           <button

@@ -11,7 +11,7 @@ const videoMapping = {
   '/miia': '/mimall-miia-bg.mp4',
   '/login': '/mimall-default.mp4',
   '/auth/login': '/mimall-default.mp4',
-  '/locations': '/mimall-locations-bg.mp4'
+  '/locations': '/mimall-bg.mp4'
 };
 
 export default function VideoBackground() {
