@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+'use client';
+
+import { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useConversation } from '@11labs/react';
 import { useSession } from 'next-auth/react';
@@ -11,7 +13,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 interface UIState {
   html: string | null;
   session_id: string;
-  user_id?: string;
+  user_id?: string | null;
+  current_route?: string;
 }
 
 interface AgenticUIProps {
@@ -22,7 +25,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
   const [uiState, setUiState] = useState<UIState | null>(null);
   const [isActive, setIsActive] = useState(false);
   const [sessionId, setSessionId] = useState<string>('');
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   
   const conversation = useConversation({
     onConnect: () => console.log('Connected to ElevenLabs'),
@@ -33,16 +36,67 @@ export default function AgenticUI({ children }: AgenticUIProps) {
     }
   });
 
-  useEffect(() => {
-    if (session?.user?.email) {
-      // Generate a consistent session ID for logged-in users
-      const userSessionId = `session_${session.user.email.split('@')[0]}_${Date.now()}`;
-      setSessionId(userSessionId);
-    } else {
-      // Generate anonymous session ID
-      setSessionId(`anon_${Date.now()}`);
+  // Initialize or get session
+  const initializeSession = useCallback(async (newSessionId: string) => {
+    if (!newSessionId) return false;
+    
+    try {
+      // First, check if session exists
+      const { data: existingSession } = await supabase
+        .from('ui_state')
+        .select('*')
+        .eq('session_id', newSessionId)
+        .single();
+
+      if (!existingSession) {
+        // Create new session if it doesn't exist
+        const { data: newSession, error } = await supabase
+          .from('ui_state')
+          .insert([
+            {
+              session_id: newSessionId,
+              user_id: session?.user?.email || null,
+              html: '<div class="p-4 text-center text-white">Session initialized. Click the circle to begin.</div>',
+              current_route: typeof window !== 'undefined' ? window.location.pathname : '/'
+            }
+          ])
+          .select()
+          .single();
+
+        if (error) throw error;
+        console.log('Created new session:', newSession);
+        setUiState(newSession);
+      } else {
+        console.log('Found existing session:', existingSession);
+        setUiState(existingSession);
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error initializing session:', error);
+      return false;
     }
   }, [session]);
+
+  useEffect(() => {
+    // Wait for session to be checked
+    if (status === 'loading') return;
+
+    const initSession = async () => {
+      let newSessionId: string;
+      if (session?.user?.email) {
+        // Generate a consistent session ID for logged-in users
+        newSessionId = `session_${session.user.email.split('@')[0]}_${Date.now()}`;
+      } else {
+        // Generate anonymous session ID
+        newSessionId = `anon_${Date.now()}`;
+      }
+      setSessionId(newSessionId);
+      await initializeSession(newSessionId);
+    };
+
+    initSession();
+  }, [session, status, initializeSession]);
 
   useEffect(() => {
     // Only subscribe to Supabase when we have a session ID
@@ -66,10 +120,28 @@ export default function AgenticUI({ children }: AgenticUIProps) {
       )
       .subscribe();
 
+    // Update current route when it changes
+    const updateRoute = async () => {
+      if (uiState) {
+        await supabase
+          .from('ui_state')
+          .update({ current_route: window.location.pathname })
+          .eq('session_id', sessionId);
+      }
+    };
+
+    // Listen for route changes
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', updateRoute);
+    }
+
     return () => {
       channel.unsubscribe();
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('popstate', updateRoute);
+      }
     };
-  }, [sessionId]);
+  }, [sessionId, uiState]);
 
   const toggleConversation = async () => {
     if (!isActive) {
@@ -79,7 +151,9 @@ export default function AgenticUI({ children }: AgenticUIProps) {
           agentId: '4qre9tSCt0aTdREuY9we',
           clientTools: {
             discover_session_id: async () => {
-              return sessionId;
+              // Ensure session exists before returning ID
+              const sessionExists = await initializeSession(sessionId);
+              return sessionExists ? sessionId : '';
             }
           }
         });
