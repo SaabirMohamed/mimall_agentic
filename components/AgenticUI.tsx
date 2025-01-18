@@ -33,6 +33,21 @@ export default function AgenticUI({ children }: AgenticUIProps) {
     onError: (error) => console.error('ElevenLabs error:', error),
     onMessage: (message) => {
       console.log('ElevenLabs message:', message);
+    },
+    onAudio: (payload: { audio: ArrayBuffer }) => {
+      console.log('Audio event received:', payload);
+    },
+    onInterruption: (payload: { reason: string }) => {
+      console.log('Interruption event received:', payload);
+    },
+    onUserTranscript: (payload: { text: string }) => {
+      console.log('User transcript received:', payload);
+    },
+    onAgentResponse: (payload: { text: string }) => {
+      console.log('Agent response received:', payload);
+    },
+    onAgentResponseCorrection: (payload: { correction: { text: string } }) => {
+      console.log('Agent response correction received:', payload);
     }
   });
 
