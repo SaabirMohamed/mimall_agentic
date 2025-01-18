@@ -168,9 +168,22 @@ export default function AgenticUI({ children }: AgenticUIProps) {
     }
   };
 
+  const resetHtml = async () => {
+    if (!sessionId) return;
+    try {
+      await supabase
+        .from('ui_state')
+        .update({ html: '' })
+        .eq('session_id', sessionId);
+      console.log('HTML content reset');
+    } catch (error) {
+      console.error('Error resetting HTML:', error);
+    }
+  };
+
   // Render the ElevenLabs status indicator
   const StatusIndicator = () => (
-    <div className="fixed bottom-20 right-20 flex flex-col items-center">
+    <div className="fixed bottom-20 right-20 flex flex-col items-center" style={{ zIndex: 9999 }}>
       {/* Session ID Display */}
       <div className="mb-2 text-sm text-white font-mono"
         style={{
@@ -179,6 +192,19 @@ export default function AgenticUI({ children }: AgenticUIProps) {
         }}>
         {sessionId}
       </div>
+      
+      {/* Reset Button - only show when there's HTML content */}
+      {uiState?.html && (
+        <div 
+          onClick={resetHtml}
+          className="mb-2 px-3 py-1 bg-red-500 text-white text-sm rounded cursor-pointer hover:bg-red-600 transition-colors"
+          style={{
+            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+          }}
+        >
+          Reset UI
+        </div>
+      )}
       
       {/* Status Circle */}
       <div
@@ -212,10 +238,10 @@ export default function AgenticUI({ children }: AgenticUIProps) {
 
   return (
     <>
-      {uiState?.html? (
+      {uiState?.html ? (
         <div 
           dangerouslySetInnerHTML={{ __html: uiState.html }} 
-          style={{ width: '100%', minHeight: '100vh' }}
+          style={{ width: '100%', minHeight: '100vh', position: 'relative', zIndex: 9998 }}
         />
       ) : (
         children
