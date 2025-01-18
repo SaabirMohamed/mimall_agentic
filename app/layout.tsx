@@ -5,6 +5,7 @@ import { Marvel } from 'next/font/google'
 import Header from './Header'
 import VideoBackground from '../components/VideoBackground'
 import { ThemeProvider } from '../components/ThemeProvider'
+import AgenticUI from '../components/AgenticUI'
 
 const marvel = Marvel({weight: '700', subsets: ['latin']})
 
@@ -18,24 +19,25 @@ export default function RootLayout({
       <body className={marvel.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <VideoBackground />
-          
-          {/* Dark Overlay */}
-          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-5"></div>
-          {/* Main Content */}
-          <div className="relative z-10">
-            <Header />
-            <div className="flex">
-              <main className="flex-grow bg-transparent overflow-y-auto min-h-screen pt-20">
-                {children}
-              </main>
-              {/* <Sidebar /> */}
+          <AgenticUI>
+            {/* Dark Overlay */}
+            <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-5"></div>
+            {/* Main Content */}
+            <div className="relative z-10">
+              <Header />
+              <div className="flex">
+                <main className="flex-grow bg-transparent overflow-y-auto min-h-screen pt-20">
+                  {children}
+                </main>
+                {/* <Sidebar /> */}
+              </div>
             </div>
-          </div>
 
-          {/* Floating Agent */}
-          {/* <FloatingAgent
-            elevenLabsKey="sk_167d6fb6888cb139283e7447503fa673bcc2545ab0c78052"
-          /> */}
+            {/* Floating Agent */}
+            {/* <FloatingAgent
+              elevenLabsKey="sk_167d6fb6888cb139283e7447503fa673bcc2545ab0c78052"
+            /> */}
+          </AgenticUI>
         </ThemeProvider>
       </body>
     </html>
