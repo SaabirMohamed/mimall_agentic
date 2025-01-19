@@ -212,12 +212,12 @@ export default function AgenticUI({ children }: AgenticUIProps) {
       {uiState?.html && (
         <div 
           onClick={resetHtml}
-          className="mb-2 px-3 py-1 bg-red-500 text-white text-sm rounded cursor-pointer hover:bg-red-600 transition-colors"
+          className="mb-2 px-3 py-1 bg-amber-500 text-white text-sm rounded cursor-pointer hover:bg-amber-800 transition-colors"
           style={{
             boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
           }}
         >
-          Reset UI
+          ✨ Clear Generated content
         </div>
       )}
       
@@ -253,7 +253,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
 
   return (
     <>
-      {uiState?.html ? (
+      {(uiState?.html ) ? (
         <div 
           dangerouslySetInnerHTML={{ __html: uiState.html }} 
           style={{ width: '100%', minHeight: '100vh', position: 'relative', zIndex: 9998 }}
