@@ -55,9 +55,9 @@ export default function Header() {
               <Link href="/michina" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 MiChina
               </Link>
-              <Link href="/hailoride" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              {/* <Link href="/hailoride" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 HailoRide
-              </Link>
+              </Link> */}
               <Link href="/miia" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                 MiiA Medical
               </Link>

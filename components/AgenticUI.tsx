@@ -103,8 +103,13 @@ export default function AgenticUI({ children }: AgenticUIProps) {
         // Generate a consistent session ID for logged-in users
         newSessionId = `session_${session.user.email.split('@')[0]}_${Date.now()}`;
       } else {
-        // Generate anonymous session ID
-        newSessionId = `anon_${Date.now()}`;
+        // Get or create persistent anonymous ID from localStorage
+        let anonId = localStorage.getItem('anonUserId');
+        if (!anonId) {
+          anonId = `${Math.floor(Math.random() * 100000000)}`;
+          localStorage.setItem('anonUserId', anonId);
+        }
+        newSessionId = `anon_${anonId}`;
       }
       setSessionId(newSessionId);
       await initializeSession(newSessionId);
@@ -129,11 +134,18 @@ export default function AgenticUI({ children }: AgenticUIProps) {
           filter: `session_id=eq.${sessionId}`
         },
         (payload) => {
-          console.log('UI state changed:', payload);
+          console.log('UI state change received:', {
+            event: payload.eventType,
+            oldRecord: payload.old,
+            newRecord: payload.new,
+            sessionId: sessionId
+          });
           setUiState(payload.new as UIState);
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Supabase subscription status:', status);
+      });
 
     // Update current route when it changes
     const updateRoute = async () => {
@@ -253,7 +265,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
 
   return (
     <>
-      {(uiState?.html ) ? (
+      {uiState?.html ? (
         <div 
           dangerouslySetInnerHTML={{ __html: uiState.html }} 
           style={{ width: '100%', minHeight: '100vh', position: 'relative', zIndex: 9998 }}

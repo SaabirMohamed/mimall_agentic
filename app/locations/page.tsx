@@ -28,7 +28,7 @@ const stores: Store[] = [
     name: 'Fashion Hub',
     type: 'Fashion Boutique',
     description: 'Trendy fashion store with latest styles',
-    image: '/stores/fashion-hub.jpg',
+    image: '/fashion-hub.jpeg',
     address: '123 Fashion Street, Greenside, Johannesburg',
     hours: [
       'Monday - Friday: 9:00 AM - 6:00 PM',
@@ -44,7 +44,7 @@ const stores: Store[] = [
     name: 'Beauty World',
     type: 'Health & Beauty',
     description: 'Complete beauty and wellness center',
-    image: '/stores/beauty-world.jpg',
+    image: '/beauty-world.jpeg',
     address: '45 Wellness Road, Greenside, Johannesburg',
     hours: [
       'Monday - Friday: 8:00 AM - 7:00 PM',
@@ -52,6 +52,7 @@ const stores: Store[] = [
       'Sunday: Closed'
     ],
     phone: '+27 11 234 5678',
+    website: 'https://beautyworld.co.za',
     coordinates: { lat: -26.1669, lng: 28.0169 }
   },
   {
@@ -59,7 +60,7 @@ const stores: Store[] = [
     name: 'Style Studio',
     type: 'Fashion Boutique',
     description: 'Designer fashion and accessories',
-    image: '/stores/style-studio.jpg',
+    image: '/style-studio.jpeg',
     address: '78 Style Avenue, Rosebank, Johannesburg',
     hours: [
       'Monday - Saturday: 9:00 AM - 6:00 PM',
@@ -74,7 +75,7 @@ const stores: Store[] = [
     name: 'Luxury Finds',
     type: 'High-End Boutique',
     description: 'Premium fashion and accessories',
-    image: '/stores/luxury-finds.jpg',
+    image: '/luxury-finds.jpeg',
     address: '100 Luxury Lane, Sandton, Johannesburg',
     hours: [
       'Monday - Friday: 10:00 AM - 7:00 PM',
@@ -90,7 +91,7 @@ const stores: Store[] = [
     name: 'Elite Fashion',
     type: 'High-End Boutique',
     description: 'Exclusive designer wear',
-    image: '/stores/elite-fashion.jpg',
+    image: '/elite-fashion.jpeg',
     address: '200 Elite Street, Brooklyn, Pretoria',
     hours: [
       'Monday - Saturday: 9:00 AM - 7:00 PM',
@@ -105,7 +106,7 @@ const stores: Store[] = [
     name: 'Urban Style',
     type: 'Fashion Boutique',
     description: 'Contemporary fashion for young professionals',
-    image: '/stores/urban-style.jpg',
+    image: '/urban-style.jpeg',
     address: '150 Urban Road, Hatfield, Pretoria',
     hours: [
       'Monday - Friday: 8:30 AM - 6:00 PM',
@@ -243,7 +244,7 @@ export default function LocationsPage() {
               <div
                 key={store.id}
                 onClick={() => setSelectedStore(store)}
-                className="group cursor-pointer animate-slide-up"
+                className="group cursor-pointer animate-slide-up border-4 border-white shadow-lg rounded-lg overflow-hidden"
               >
                 <div className="relative h-64 overflow-hidden rounded-lg">
                   <Image
