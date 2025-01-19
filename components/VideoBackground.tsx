@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 const videoMapping = {
-  '/': '/mimall-default.mp4',
+  '/': '/mimall-home-bg.mp4',
   '/categories': '/mimall-categories-bg.mp4',
   '/michina': '/mimall-china-bg.mp4',
-  '/stores': '/mimall-stores.bg.mp4',
-  '/miia': '/mimall-miia-bg.mp4',
-  '/login': '/mimall-default.mp4',
-  '/auth/login': '/mimall-default.mp4',
+  '/stores': '/mimall-home-bg.mp4',
+  '/miia': '/mimall-medical-bg.mp4',
+  '/login': '/mimall-home-bg.mp4',
+  '/auth/login': '/mimall-home-bg.mp4',
   '/locations': '/mimall-bg.mp4'
 };
 

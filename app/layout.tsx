@@ -28,7 +28,7 @@ export default function RootLayout({
               <div className="relative z-10">
                 <Header />
                 <div className="flex">
-                  <main className="flex-grow bg-transparent overflow-y-auto min-h-screen pt-20">
+                  <main className="flex-grow bg-transparent overflow-y-auto min-h-screen">
                     {children}
                   </main>
                   {/* <Sidebar /> */}

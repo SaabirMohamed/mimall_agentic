@@ -18,7 +18,7 @@
     "@types/google.maps": "^3.58.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.18.0",
+    "framer-motion": "^11.18.1",
     "jsdom": "^26.0.0",
     "lucide-react": "^0.469.0",
     "next": "14.2.16",

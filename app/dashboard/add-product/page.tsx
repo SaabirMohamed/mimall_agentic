@@ -30,14 +30,14 @@ export default function AddProductPage() {
   const [step, setStep] = useState(1)
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
         router.push('/login')
       }
     }
-    checkAuth()
-  }, [router, supabase.auth])
+    checkUser()
+  }, [router])
 
   const [productData, setProductData] = useState<ProductData>({
     name: '',

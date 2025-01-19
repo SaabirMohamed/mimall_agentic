@@ -1,162 +1,317 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Calendar, Clock, User, MapPin, Phone, Mail } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Phone } from 'lucide-react'
 
 const MiiAPage = () => {
-  const [isPatient, setIsPatient] = useState(true)
+  const [userType, setUserType] = useState<string | null>(null)
+  const [currentStep, setCurrentStep] = useState(0)
 
-  return (
-    <div className="container mx-auto my-8 pt-16">
-      <h1 className="text-4xl font-bold mb-8 text-center">MiiA - Your Medical AI Assistant</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-black bg-opacity-70 p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Find and Book Appointments</h2>
+  const steps = [
+    'Practice Information',
+    'Contact Details',
+    'Services & Specialties',
+    'Required Documents',
+    'Payment Information'
+  ]
+
+  if (!userType) {
+    return (
+      <div className="flex items-center justify-center">
+        <div className="max-w-2xl mx-auto text-center">
+          <h1 className="text-4xl font-bold mb-8 text-white">Welcome to MiiA</h1>
+          <p className="text-xl text-gray-300 mb-12">Your Medical AI Assistant</p>
           
-          <div className="mb-4">
-            <label className="block mb-2">I am a:</label>
-            <div className="flex space-x-4">
-              <button
-                className={`px-4 py-2 rounded ${isPatient ? 'bg-blue-500 text-gray-200' : 'bg-gray-200'}`}
-                onClick={() => setIsPatient(true)}
-              >
-                Patient
-              </button>
-              <button
-                className={`px-4 py-2 rounded ${!isPatient ? 'bg-blue-500 text-gray-200' : 'bg-gray-200'}`}
-                onClick={() => setIsPatient(false)}
-              >
-                Healthcare Provider
-              </button>
-            </div>
-          </div>
-
-          {isPatient ? (
-            <>
-              <div className="mb-4">
-                <label className="block mb-2">Describe your symptoms or condition</label>
-                <textarea
-                  className="w-full p-2 border rounded"
-                  rows={3}
-                  placeholder="E.g., I've been experiencing headaches and fatigue for the past week..."
-                ></textarea>
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2">Preferred appointment date</label>
-                <div className="flex items-center border rounded p-2">
-                  <Calendar className="mr-2 text-gray-200" />
-                  <input type="date" className="w-full outline-none" />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2">Preferred time</label>
-                <div className="flex items-center border rounded p-2">
-                  <Clock className="mr-2 text-gray-200" />
-                  <input type="time" className="w-full outline-none" />
-                </div>
-              </div>
-
-              <button className="w-full bg-blue-500 text-gray-200 py-3 rounded font-bold hover:bg-blue-600 transition-colors duration-300">
-                Find Suitable Doctors
-              </button>
-            </>
-          ) : (
-            <>
-              <div className="mb-4">
-                <label className="block mb-2">Full Name</label>
-                <div className="flex items-center border rounded p-2">
-                  <User className="mr-2 text-gray-200" />
-                  <input type="text" className="w-full outline-none" placeholder="Dr. Jane Doe" />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2">Specialization</label>
-                <input type="text" className="w-full p-2 border rounded" placeholder="E.g., Cardiologist, Pediatrician" />
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2">Practice Address</label>
-                <div className="flex items-center border rounded p-2">
-                  <MapPin className="mr-2 text-gray-200" />
-                  <input type="text" className="w-full outline-none" placeholder="123 Medical St, Johannesburg" />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2">Contact Number</label>
-                <div className="flex items-center border rounded p-2">
-                  <Phone className="mr-2 text-gray-200" />
-                  <input type="tel" className="w-full outline-none" placeholder="+27 12 345 6789" />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2">Email</label>
-                <div className="flex items-center border rounded p-2">
-                  <Mail className="mr-2 text-gray-200" />
-                  <input type="email" className="w-full outline-none" placeholder="doctor@example.com" />
-                </div>
-              </div>
-
-              <button className="w-full bg-blue-500 text-gray-200 py-3 rounded font-bold hover:bg-blue-600 transition-colors duration-300">
-                Sign Up as Healthcare Provider
-              </button>
-            </>
-          )}
-        </div>
-
-        <div className="bg-black bg-opacity-70 p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">How MiiA Works</h2>
-          <ul className="space-y-4">
-            <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">1</div>
-              <div>
-                <h3 className="font-semibold">Describe Your Symptoms</h3>
-                <p className="text-gray-200">Tell MiiA about your health concerns or symptoms.</p>
-              </div>
-            </li>
-            <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">2</div>
-              <div>
-                <h3 className="font-semibold">AI Analysis</h3>
-                <p className="text-gray-200">MiiA analyzes your input to understand your needs.</p>
-              </div>
-            </li>
-            <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">3</div>
-              <div>
-                <h3 className="font-semibold">Doctor Recommendations</h3>
-                <p className="text-gray-200">Based on the analysis, MiiA suggests suitable healthcare providers.</p>
-              </div>
-            </li>
-            <li className="flex items-start">
-              <div className="bg-blue-500 text-gray-200 rounded-full p-2 mr-4">4</div>
-              <div>
-                <h3 className="font-semibold">Book Appointment</h3>
-                <p className="text-gray-200">Choose a doctor and book your appointment through our platform.</p>
-              </div>
-            </li>
-          </ul>
-          
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-2">Why Choose MiiA?</h3>
-            <ul className="list-disc list-inside space-y-2">
-              <li>Quick and accurate initial assessments</li>
-              <li>Access to a wide network of healthcare providers</li>
-              <li>Convenient 24/7 booking system</li>
-              <li>Personalized healthcare recommendations</li>
-              <li>Secure and confidential service</li>
-            </ul>
+          <div className="flex flex-col md:flex-row gap-6 justify-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4  text-white rounded-lg text-xl font-semibold hover:bg-blue-700 transition-colors"
+              onClick={() => setUserType('professional')}
+            >
+              Medical Professional Onboarding
+            </motion.button>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 text-white rounded-lg text-xl font-semibold hover:bg-gray-800 transition-colors"
+              onClick={() => setUserType('browsing')}
+            >
+              Browse Medical Services
+            </motion.button>
           </div>
         </div>
       </div>
+    )
+  }
+
+  if (userType === 'professional') {
+    return (
+      <div className="glass m-20  bg-opacity-70 text-white">
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-center mb-4">Medical Practice Registration</h1>
+            <div className="flex justify-center space-x-4 mb-12">
+              {steps.map((step, index) => (
+                <div
+                  key={step}
+                  className={`flex items-center ${
+                    index <= currentStep ? 'text-blue-500' : 'text-gray-500'
+                  }`}
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                      index <= currentStep
+                        ? 'border-blue-500 bg-blue-500 text-white'
+                        : 'border-gray-500 text-gray-500'
+                    }`}
+                  >
+                    {index + 1}
+                  </div>
+                  <span className="ml-2 hidden md:inline">{step}</span>
+                  {index < steps.length - 1 && (
+                    <div
+                      className={`h-0.5 w-8 ml-2 ${
+                        index < currentStep ? 'bg-blue-500' : 'bg-gray-500'
+                      }`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-gray-800 bg-opacity-30 p-8 rounded-lg shadow-xl">
+              {currentStep === 0 && (
+                <div className="space-y-6">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Practice Name</label>
+                    <input
+                      type="text"
+                      className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      placeholder="Enter practice name"
+                    />
+                  </div>
+                  
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Medical License Number</label>
+                    <input
+                      type="text"
+                      className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      placeholder="Enter license number"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Practice Registration Number</label>
+                    <input
+                      type="text"
+                      className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      placeholder="Enter registration number"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Date of Establishment</label>
+                    <input
+                      type="date"
+                      className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-between mt-8">
+                <button
+                  onClick={() => setUserType(null)}
+                  className="px-6 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+                >
+                  Back to Home
+                </button>
+                <button
+                  onClick={() => setCurrentStep(prev => Math.min(prev + 1, steps.length - 1))}
+                  className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  {currentStep === steps.length - 1 ? 'Submit' : 'Next Step'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="text-white p-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-7xl mx-auto"
+      >
+        <div className="flex justify-between items-center mb-12">
+          <div>
+            <h1 className="text-4xl font-bold mb-4">Browse Medical Services</h1>
+            <p className="text-xl text-gray-300">Find the right specialist for your needs</p>
+          </div>
+          <button
+            onClick={() => setUserType(null)}
+            className="px-6 py-2 glass text-white rounded hover:bg-opacity-50 transition-all"
+          >
+            Back to Home
+          </button>
+        </div>
+
+        {/* Search and Filter Section */}
+        <div className="glass bg-opacity-30 p-6 rounded-lg mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <input
+              type="text"
+              placeholder="Search by symptom or specialist..."
+              className="w-full p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-blue-500"
+            />
+            <select className="w-full p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-blue-500">
+              <option value="">Select Specialization</option>
+              <option value="cardiology">Cardiology</option>
+              <option value="dermatology">Dermatology</option>
+              <option value="pediatrics">Pediatrics</option>
+              <option value="orthopedics">Orthopedics</option>
+              <option value="psychology">Psychology</option>
+            </select>
+            <select className="w-full p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-blue-500">
+              <option value="">Location</option>
+              <option value="johannesburg">Johannesburg</option>
+              <option value="pretoria">Pretoria</option>
+              <option value="capetown">Cape Town</option>
+              <option value="durban">Durban</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Emergency Services Section */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="glass bg-opacity-30 p-6 rounded-lg mb-12 border-l-4 border-red-500"
+        >
+          <h2 className="text-2xl font-bold mb-4">Emergency Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex items-center space-x-4">
+              <div className="bg-red-500 bg-opacity-20 p-3 rounded-full">
+                <Phone className="w-6 h-6 text-red-500" />
+              </div>
+              <div>
+                <p className="font-semibold">Netcare 911</p>
+                <p className="text-gray-300">082 911</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="bg-red-500 bg-opacity-20 p-3 rounded-full">
+                <Phone className="w-6 h-6 text-red-500" />
+              </div>
+              <div>
+                <p className="font-semibold">ER24</p>
+                <p className="text-gray-300">084 124</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="bg-red-500 bg-opacity-20 p-3 rounded-full">
+                <Phone className="w-6 h-6 text-red-500" />
+              </div>
+              <div>
+                <p className="font-semibold">Public Healthcare</p>
+                <p className="text-gray-300">0800 029 999</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Specialists Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Cardiology",
+              description: "Heart and cardiovascular system specialists",
+              symptoms: ["Chest pain", "Shortness of breath", "Heart palpitations"],
+              icon: "❤️"
+            },
+            {
+              title: "Dermatology",
+              description: "Skin, hair, and nail specialists",
+              symptoms: ["Skin conditions", "Rashes", "Acne"],
+              icon: "🔬"
+            },
+            {
+              title: "Pediatrics",
+              description: "Child health specialists",
+              symptoms: ["Child illnesses", "Vaccinations", "Growth monitoring"],
+              icon: "👶"
+            },
+            {
+              title: "Orthopedics",
+              description: "Bone and joint specialists",
+              symptoms: ["Joint pain", "Fractures", "Sports injuries"],
+              icon: "🦴"
+            },
+            {
+              title: "Psychology",
+              description: "Mental health specialists",
+              symptoms: ["Anxiety", "Depression", "Stress"],
+              icon: "🧠"
+            },
+            {
+              title: "General Practice",
+              description: "Primary healthcare providers",
+              symptoms: ["General checkups", "Common illnesses", "Preventive care"],
+              icon: "👨‍⚕️"
+            }
+          ].map((specialty, index) => (
+            <motion.div
+              key={specialty.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="glass bg-opacity-30 p-6 rounded-lg hover:bg-opacity-40 transition-all cursor-pointer"
+            >
+              <div className="text-4xl mb-4">{specialty.icon}</div>
+              <h3 className="text-xl font-bold mb-2">{specialty.title}</h3>
+              <p className="text-gray-300 mb-4">{specialty.description}</p>
+              <div className="space-y-2">
+                {specialty.symptoms.map(symptom => (
+                  <div key={symptom} className="flex items-center space-x-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                    <p className="text-sm text-gray-300">{symptom}</p>
+                  </div>
+                ))}
+              </div>
+              <button className="mt-4 w-full py-2 glass hover:bg-opacity-50 rounded transition-all">
+                Find Specialists
+              </button>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Help Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-12 glass bg-opacity-30 p-6 rounded-lg text-center"
+        >
+          <h2 className="text-2xl font-bold mb-4">Need Help Choosing?</h2>
+          <p className="text-gray-300 mb-6">
+            Describe your symptoms and let our AI assistant help you find the right specialist
+          </p>
+          <button className="px-8 py-3 glass hover:bg-opacity-50 rounded-lg transition-all">
+            Talk to MiiA
+          </button>
+        </motion.div>
+      </motion.div>
     </div>
   )
 }
 
 export default MiiAPage
-
