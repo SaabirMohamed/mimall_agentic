@@ -43,13 +43,26 @@ export default function DashboardPage() {
         setUserType(profile.ui_state.user_type)
       }
 
-      //der Fetch dashboard stats here
-      // For now using dummy data
+      // Fetch real stats from Supabase
+      const { count: productsCount } = await supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+
+      const { count: draftCount } = await supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'draft')
+
+      const { count: aiOptimizedCount } = await supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+        .neq('metadata->ai_optimized', null)
+
       setStats({
-        uploadedProducts: 12,
-        pendingApprovals: 3,
-        aiOptimizedListings: 8,
-        totalSales: 1500
+        uploadedProducts: productsCount || 0,
+        pendingApprovals: draftCount || 0,
+        aiOptimizedListings: aiOptimizedCount || 0,
+        totalSales: 0 // TODO: Implement sales tracking
       })
       setLoading(false)
     } catch (error) {

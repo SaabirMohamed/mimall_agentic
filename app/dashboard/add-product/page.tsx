@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase, uploadProductImage } from '../../../lib/supabase'
 
 interface ProductVariant {
   size: string
@@ -13,18 +13,20 @@ interface ProductVariant {
 interface ProductData {
   name: string
   description: string
-  category: string
-  brand: string
-  sku: string
+  category_id: string
   price: string
   images: File[]
-  quantity: string
-  variants: ProductVariant[]
+  stock_quantity: string
+  status: 'draft' | 'published' | 'archived'
+  metadata: {
+    brand?: string
+    sku?: string
+    variants?: ProductVariant[]
+  }
 }
 
 export default function AddProductPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
   const [step, setStep] = useState(1)
 
   useEffect(() => {
@@ -40,13 +42,16 @@ export default function AddProductPage() {
   const [productData, setProductData] = useState<ProductData>({
     name: '',
     description: '',
-    category: '',
-    brand: '',
-    sku: '',
+    category_id: '',
     price: '',
     images: [],
-    quantity: '',
-    variants: []
+    stock_quantity: '',
+    status: 'draft',
+    metadata: {
+      brand: '',
+      sku: '',
+      variants: []
+    }
   })
   const [aiSuggestions, setAiSuggestions] = useState<{
     title: string;
@@ -77,15 +82,24 @@ export default function AddProductPage() {
   const handleAddVariant = () => {
     setProductData(prev => ({
       ...prev,
-      variants: [...prev.variants, { size: '', color: '' }]
+      metadata: {
+        ...prev.metadata,
+        variants: [...(prev.metadata.variants || []), { size: '', color: '' }]
+      }
     }))
   }
 
   const handleVariantChange = (index: number, field: 'size' | 'color', value: string) => {
     setProductData(prev => {
-      const newVariants = [...prev.variants]
+      const newVariants = [...(prev.metadata.variants || [])]
       newVariants[index] = { ...newVariants[index], [field]: value }
-      return { ...prev, variants: newVariants }
+      return {
+        ...prev,
+        metadata: {
+          ...prev.metadata,
+          variants: newVariants
+        }
+      }
     })
   }
 
@@ -93,15 +107,70 @@ export default function AddProductPage() {
     // TODO: Integrate with AI API
     setAiSuggestions({
       title: `Premium ${productData.name}`,
-      description: `High-quality ${productData.name} by ${productData.brand}. ${productData.description}`,
-      keywords: ['premium', productData.category, productData.brand]
+      description: `High-quality ${productData.name} by ${productData.metadata?.brand ?? 'Unknown Brand'}. ${productData.description}`,
+      keywords: ['premium', productData.category_id, productData.metadata?.brand ?? 'unknown']
     })
   }
 
   const handleSubmit = async () => {
     try {
-      // TODO: Submit to API
-      router.push('/dashboard')
+      // 1. Create the product record
+      const { data: product, error: productError } = await supabase
+        .from('products')
+        .insert([
+          {
+            name: productData.name,
+            description: productData.description,
+            category_id: productData.category_id,
+            price: parseFloat(productData.price),
+            stock_quantity: parseInt(productData.stock_quantity),
+            status: productData.status,
+            metadata: productData.metadata,
+            slug: productData.name.toLowerCase().replace(/\s+/g, '-')
+          }
+        ])
+        .select()
+        .single()
+
+      if (productError) throw productError
+
+      // 2. Upload images and create image records
+      const imagePromises = productData.images.map(async (file) => {
+        const { url, path } = await uploadProductImage(file, product.id)
+        
+        return supabase
+          .from('product_images')
+          .insert([
+            {
+              product_id: product.id,
+              url,
+              storage_path: path,
+              alt_text: productData.name,
+              is_primary: false
+            }
+          ])
+      })
+
+      await Promise.all(imagePromises)
+
+      // 3. Set the first image as primary
+      if (productData.images.length > 0) {
+        const { data: firstImage } = await supabase
+          .from('product_images')
+          .select('id')
+          .eq('product_id', product.id)
+          .limit(1)
+          .single()
+
+        if (firstImage) {
+          await supabase
+            .from('product_images')
+            .update({ is_primary: true })
+            .eq('id', firstImage.id)
+        }
+      }
+
+      router.push('/dashboard/products')
     } catch (error) {
       console.error('Error submitting product:', error)
     }
@@ -149,25 +218,9 @@ export default function AddProductPage() {
               />
               <input
                 type="text"
-                name="category"
-                placeholder="Category"
-                value={productData.category}
-                onChange={handleInputChange}
-                className="w-full p-3 rounded-lg glass border border-gray-700"
-              />
-              <input
-                type="text"
-                name="brand"
-                placeholder="Brand"
-                value={productData.brand}
-                onChange={handleInputChange}
-                className="w-full p-3 rounded-lg glass border border-gray-700"
-              />
-              <input
-                type="text"
-                name="sku"
-                placeholder="SKU"
-                value={productData.sku}
+                name="category_id"
+                placeholder="Category ID"
+                value={productData.category_id}
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-lg glass border border-gray-700"
               />
@@ -176,6 +229,22 @@ export default function AddProductPage() {
                 name="price"
                 placeholder="Price (ZAR)"
                 value={productData.price}
+                onChange={handleInputChange}
+                className="w-full p-3 rounded-lg glass border border-gray-700"
+              />
+              <input
+                type="text"
+                name="metadata.brand"
+                placeholder="Brand"
+                value={productData.metadata.brand}
+                onChange={handleInputChange}
+                className="w-full p-3 rounded-lg glass border border-gray-700"
+              />
+              <input
+                type="text"
+                name="metadata.sku"
+                placeholder="SKU"
+                value={productData.metadata.sku}
                 onChange={handleInputChange}
                 className="w-full p-3 rounded-lg glass border border-gray-700"
               />
@@ -238,14 +307,14 @@ export default function AddProductPage() {
             <h2 className="text-xl font-semibold mb-4">Inventory & Variants</h2>
             <input
               type="number"
-              name="quantity"
+              name="stock_quantity"
               placeholder="Stock Quantity"
-              value={productData.quantity}
+              value={productData.stock_quantity}
               onChange={handleInputChange}
               className="w-full p-3 rounded-lg glass border border-gray-700"
             />
             <div className="space-y-4">
-              {productData.variants.map((variant, index) => (
+              {(productData.metadata.variants || []).map((variant, index) => (
                 <div key={index} className="flex gap-4">
                   <input
                     type="text"
