@@ -1,13 +1,14 @@
 'use client'
 
 import { getCategories } from '@/utils/supabase/queries'
+import { categories as localCategories } from '@/data/categories'
 import { Category, Product, Store, Subcategory } from '@/types/categories'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Store as StoreIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Icons } from '@/components/icons'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 interface FilterState {
   category: string | null;
@@ -235,144 +236,249 @@ const ProductModal = ({ product, isOpen, onClose, categories }: {
   );
 };
 
-const SubcategoryProducts = ({ 
-  subcategory,
-  onProductClick 
-}: { 
-  subcategory: Subcategory;
-  onProductClick: (product: Product) => void;
-}) => {
+const SubcategoryProducts = ({ subcategory, onProductClick }: { subcategory: Subcategory; onProductClick: (product: Product) => void }) => {
   return (
-    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {subcategory.products?.map((product: Product) => (
-        <motion.div
-          key={product.id}
-          className="relative w-[280px] h-[400px] rounded-lg overflow-hidden cursor-pointer"
-          whileHover={{ scale: 1.02 }}
-          onClick={() => onProductClick(product)}
-        >
-          {/* White border overlay */}
-          <div className="absolute inset-0 border-[6px] border-white rounded-lg z-20"></div>
-          
-          {/* Image background */}
-          <div className="absolute inset-0 z-10">
-            <Image
-              src={product.images?.[0]?.image_url || '/placeholder.jpg'}
-              alt={product.name}
-              fill
-              sizes="280px"
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
-              className="transition-transform duration-500 group-hover:scale-110"
-            />
-          </div>
-          
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20"></div>
-          
-          {/* Content */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 z-30">
-            <h3 className="text-xl font-marvel font-bold text-white mb-1 drop-shadow-lg line-clamp-2">
-              {product.name}
-            </h3>
-            <p className="text-lg font-marvel text-amber-500 mb-3 drop-shadow-lg">
-              R {product.price.toLocaleString()}
-            </p>
-            
-            <div className="flex items-center space-x-4 text-white/90">
-              <div className="flex items-center">
-                <Icons.store size={16} className="mr-1" />
-                <span className="font-marvel text-sm">{product.stores?.length} store</span>
-              </div>
-              <div className="flex items-center">
-                <Icons.tag size={16} className="mr-1" />
-                <span className="font-marvel text-sm">{subcategory.name}</span>
-              </div>
+    <div className="mt-4">
+      <h3 className="text-xl font-semibold mb-4 text-black">{subcategory.name}</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {subcategory.products?.map((product) => (
+          <motion.div
+            key={product.id}
+            whileHover={{ scale: 1.02 }}
+            className="relative group cursor-pointer bg-white rounded-lg shadow-sm overflow-hidden"
+            onClick={() => onProductClick(product)}
+          >
+            <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden">
+              <Image
+                src={product.image_url || '/placeholder.jpg'}
+                alt={product.name}
+                width={300}
+                height={300}
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-opacity duration-200" />
             </div>
-          </div>
-        </motion.div>
-      ))}
+            <div className="p-4">
+              <h4 className="text-lg font-semibold text-black mb-1">{product.name}</h4>
+              <p className="text-2xl font-bold text-green-600">
+                R{product.price.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+              {product.description && (
+                <p className="text-gray-600 text-sm mt-1">{product.description}</p>
+              )}
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default function CategoriesPage() {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [categories, setCategories] = useState<Category[]>([])
+const CategoriesPage = () => {
+  const [categories, setCategories] = useState<Category[]>(localCategories);
+  const [loading, setLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name' | 'newest'>('newest');
 
   useEffect(() => {
-    const loadCategories = async () => {
-      const cats = await getCategories()
-      if (cats) {
-        setCategories(cats)
+    const fetchSupabaseCategories = async () => {
+      try {
+        setLoading(true);
+        const supabaseCategories = await getCategories();
+        if (supabaseCategories && supabaseCategories.length > 0) {
+          setCategories(supabaseCategories);
+        }
+      } catch (error) {
+        console.error('Error fetching Supabase categories:', error);
+      } finally {
+        setLoading(false);
       }
-    }
-    loadCategories()
-  }, [])
+    };
 
-  const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
+    fetchSupabaseCategories();
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    let products: Product[] = [];
+    categories.forEach(category => {
+      category.subcategories?.forEach(subcategory => {
+        if (subcategory.products) {
+          products = [...products, ...subcategory.products];
+        }
+      });
+    });
+
+    return products.filter(product => {
+      const matchesSearch = searchQuery === '' || 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description?.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesCategory = !selectedCategory || 
+        product.category_id === selectedCategory;
+      
+      const matchesSubcategory = !selectedSubcategory || 
+        product.subcategory_id === selectedSubcategory;
+      
+      const matchesPrice = product.price >= priceRange.min && 
+        product.price <= priceRange.max;
+
+      return matchesSearch && matchesCategory && matchesSubcategory && matchesPrice;
+    }).sort((a, b) => {
+      switch (sortBy) {
+        case 'price-asc':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'newest':
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        default:
+          return 0;
+      }
+    });
+  }, [categories, searchQuery, selectedCategory, selectedSubcategory, priceRange, sortBy]);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Categories</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {categories.map((category: Category) => (
-          <div key={category.id} className="border rounded-lg p-4">
-            <h2 className="text-xl font-semibold mb-2 flex items-center">
-              <span className="material-icons mr-2">{category.icon}</span>
-              {category.name}
-            </h2>
-            <p className="text-gray-600 mb-4">{category.description}</p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-rose-800">
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        className="fixed inset-0 w-full h-full object-cover z-0"
+        style={{ filter: 'brightness(0.4)' }}
+      >
+        <source src="/mall-background.mp4" type="video/mp4" />
+      </video>
+
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Glass Header */}
+        <div className="backdrop-blur-md bg-white/30 rounded-xl p-6 mb-8 shadow-xl">
+          <h1 className="text-4xl font-bold text-white mb-6">Categories</h1>
+          
+          {/* Search and Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white placeholder-white/70"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             
-            {category.subcategories?.map((subcategory) => (
-              <div key={subcategory.id} className="mb-4">
-                <h3 className="font-medium mb-2">{subcategory.name}</h3>
-                <div className="grid grid-cols-1 gap-2">
-                  {subcategory.products?.map((product) => (
-                    <Link 
-                      key={product.id}
-                      href={`/product/${product.id}`}
-                      className="block hover:bg-gray-50 p-2 rounded"
-                    >
-                      <div className="flex items-center">
-                        {product.image && (
-                          <Image 
-                            src={product.image} 
-                            alt={product.name}
-                            width={64}
-                            height={64}
-                            className="object-cover rounded mr-2"
-                          />
-                        )}
-                        <div>
-                          <div className="font-medium">{product.name}</div>
-                          <div className="text-sm text-gray-600">
-                            ${product.price.toFixed(2)}
-                          </div>
-                          <div className="text-sm text-gray-500 flex items-center">
-                            <StoreIcon className="w-4 h-4 mr-1" />
-                            {product.stores?.[0]?.availability || 'Checking availability...'}
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
+            <select
+              className="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white"
+              value={selectedCategory || ''}
+              onChange={(e) => setSelectedCategory(e.target.value || null)}
+            >
+              <option value="">All Categories</option>
+              {categories.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+
+            <select
+              className="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+            >
+              <option value="newest">Newest First</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name">Name</option>
+            </select>
+
+            <div className="flex gap-4">
+              <input
+                type="number"
+                placeholder="Min Price"
+                className="w-1/2 px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white placeholder-white/70"
+                value={priceRange.min}
+                onChange={(e) => setPriceRange(prev => ({ ...prev, min: Number(e.target.value) }))}
+              />
+              <input
+                type="number"
+                placeholder="Max Price"
+                className="w-1/2 px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white placeholder-white/70"
+                value={priceRange.max}
+                onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) }))}
+              />
+            </div>
           </div>
-        ))}
+        </div>
+
+        {/* Products Grid */}
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+          </div>
+        ) : (
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                className="backdrop-blur-md bg-white/20 rounded-xl overflow-hidden shadow-xl group cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.03 }}
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setIsModalOpen(true);
+                }}
+              >
+                <div className="relative aspect-w-1 aspect-h-1">
+                  <Image
+                    src={product.image_url || '/placeholder.jpg'}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+                </div>
+                
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-white mb-2">{product.name}</h3>
+                  <p className="text-3xl font-bold text-green-400 mb-2">
+                    R{product.price.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </p>
+                  {product.description && (
+                    <p className="text-white/80 text-sm">{product.description}</p>
+                  )}
+                  
+                  <div className="mt-4 flex items-center justify-between text-white/70">
+                    <span className="text-sm">{product.category}</span>
+                    <span className="text-sm">{product.subcategory}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
 
       <ProductModal 
         product={selectedProduct} 
         isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedProduct(null);
+        }}
         categories={categories}
       />
     </div>
-  )
-}
+  );
+};
+
+export default CategoriesPage;
