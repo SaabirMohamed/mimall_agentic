@@ -28,7 +28,15 @@ const config: Config = {
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
       },
-  		colors: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      fontFamily: {
+        marvel: ['Marvel', 'sans-serif'],
+      },
+      colors: {
         gold: {
           50: '#fff9e6',
           100: '#fff2cc',

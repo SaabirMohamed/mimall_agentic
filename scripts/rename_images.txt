@@ -1,0 +1,157 @@
+import * as fs from 'fs';
+import * as path from 'path';
+
+const IMAGE_ROOT = path.join(process.cwd(), 'public', 'ai_product_images');
+
+interface ImageMapping {
+  oldPath: string;
+  newPath: string;
+  category: string;
+}
+
+// Define the mapping of old to new paths
+const imageMappings: ImageMapping[] = [
+  // Art & Crafts
+  {
+    oldPath: 'Art_&_Crafts/DIY_Kits.png',
+    newPath: 'art_and_crafts/diy_kits.png',
+    category: 'Art & Crafts'
+  },
+  {
+    oldPath: 'Art_&_Crafts/Fabrics_&_Sewing_Accessories.png',
+    newPath: 'art_and_crafts/fabrics_and_sewing.png',
+    category: 'Art & Crafts'
+  },
+  {
+    oldPath: 'Art_&_Crafts/Painting_Supplies.png',
+    newPath: 'art_and_crafts/painting_supplies.png',
+    category: 'Art & Crafts'
+  },
+  {
+    oldPath: 'Art_&_Crafts/Scrapbooking_Materials.png',
+    newPath: 'art_and_crafts/scrapbooking.png',
+    category: 'Art & Crafts'
+  },
+
+  // Electronics
+  {
+    oldPath: 'Electronics/Mobile_Phones_&_Accessories.png',
+    newPath: 'electronics/mobile_phones.png',
+    category: 'Electronics'
+  },
+  {
+    oldPath: 'Electronics/Laptops_&_Computers.png',
+    newPath: 'electronics/laptops.png',
+    category: 'Electronics'
+  },
+  {
+    oldPath: 'Electronics/Gaming_Consoles_&_Accessories.png',
+    newPath: 'electronics/gaming_consoles.png',
+    category: 'Electronics'
+  },
+  {
+    oldPath: 'Electronics/TV_&_Home_Entertainment.png',
+    newPath: 'electronics/tv_and_entertainment.png',
+    category: 'Electronics'
+  },
+
+  // Fashion & Apparel
+  {
+    oldPath: 'Fashion_&_Apparel/Men\'s_Clothing.png',
+    newPath: 'fashion/mens_clothing.png',
+    category: 'Fashion'
+  },
+  {
+    oldPath: 'Fashion_&_Apparel/Women\'s_Clothing.png',
+    newPath: 'fashion/womens_clothing.png',
+    category: 'Fashion'
+  },
+  {
+    oldPath: 'Fashion_&_Apparel/Kids\'_Clothing.png',
+    newPath: 'fashion/kids_clothing.png',
+    category: 'Fashion'
+  },
+
+  // Add more mappings as needed...
+];
+
+function createDirectories() {
+  // Get unique categories
+  const categories = new Set(imageMappings.map(m => path.dirname(m.newPath)));
+  
+  // Create directories
+  for (const category of categories) {
+    const dirPath = path.join(IMAGE_ROOT, category);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+      console.log(`Created directory: ${dirPath}`);
+    }
+  }
+}
+
+function renameImages() {
+  createDirectories();
+  
+  const results = {
+    success: [] as string[],
+    failed: [] as string[],
+    skipped: [] as string[]
+  };
+
+  for (const mapping of imageMappings) {
+    const oldFullPath = path.join(IMAGE_ROOT, mapping.oldPath);
+    const newFullPath = path.join(IMAGE_ROOT, mapping.newPath);
+
+    try {
+      if (!fs.existsSync(oldFullPath)) {
+        results.skipped.push(`${mapping.oldPath} (source file not found)`);
+        continue;
+      }
+
+      if (fs.existsSync(newFullPath)) {
+        results.skipped.push(`${mapping.newPath} (destination already exists)`);
+        continue;
+      }
+
+      fs.copyFileSync(oldFullPath, newFullPath);
+      results.success.push(`${mapping.oldPath} -> ${mapping.newPath}`);
+    } catch (error:any) {
+      results.failed.push(`${mapping.oldPath}: ${error.message}`);
+    }
+  }
+
+  return results;
+}
+
+// Generate TypeScript mappings for use in the application
+function generatePathMappings(): string {
+  const mappings = imageMappings.map(m => ({
+    old: `/ai_product_images/${m.oldPath}`,
+    new: `/ai_product_images/${m.newPath}`,
+    category: m.category
+  }));
+
+  return `export const imagePathMappings = ${JSON.stringify(mappings, null, 2)};`;
+}
+
+// Run the rename operation
+const results = renameImages();
+
+// Log results
+console.log('\nResults:');
+console.log('\nSuccessful:');
+results.success.forEach(s => console.log(`✓ ${s}`));
+console.log('\nSkipped:');
+results.skipped.forEach(s => console.log(`- ${s}`));
+console.log('\nFailed:');
+results.failed.forEach(s => console.log(`✗ ${s}`));
+
+// Generate and save the mappings file
+const mappingsContent = generatePathMappings();
+fs.writeFileSync(
+  path.join(process.cwd(), 'data', 'image-mappings.ts'),
+  mappingsContent,
+  'utf8'
+);
+
+console.log('\nGenerated image mappings in data/image-mappings.ts');

@@ -14,7 +14,7 @@ export const fashionCategory: Category = {
         {
           id: 101,
           name: 'Summer Floral Dress',
-          image: '/products/fashion/dress1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Women\'s_Clothing.png',
           price: 1299.99,
           description: 'Light and breezy summer dress with floral pattern',
           category: 'Fashion & Apparel',
@@ -25,7 +25,7 @@ export const fashionCategory: Category = {
         {
           id: 102,
           name: 'Business Blazer',
-          image: '/products/fashion/blazer1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Women\'s_Clothing.png',
           price: 2499.99,
           description: 'Professional blazer for the modern businesswoman',
           category: 'Fashion & Apparel',
@@ -42,7 +42,7 @@ export const fashionCategory: Category = {
         {
           id: 103,
           name: 'Classic Suit',
-          image: '/products/fashion/suit1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Men\'s_Clothing.png',
           price: 4999.99,
           description: 'Premium wool blend suit in navy blue',
           category: 'Fashion & Apparel',
@@ -53,7 +53,7 @@ export const fashionCategory: Category = {
         {
           id: 104,
           name: 'Casual Denim Jacket',
-          image: '/products/fashion/jacket1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Men\'s_Clothing.png',
           price: 1799.99,
           description: 'Classic denim jacket with modern fit',
           category: 'Fashion & Apparel',
@@ -70,7 +70,7 @@ export const fashionCategory: Category = {
         {
           id: 105,
           name: 'Kids Play Set',
-          image: '/products/fashion/kids1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Kids\'_Clothing.png',
           price: 599.99,
           description: 'Comfortable and durable play set for active kids',
           category: 'Fashion & Apparel',
@@ -87,7 +87,7 @@ export const fashionCategory: Category = {
         {
           id: 106,
           name: 'Running Shoes',
-          image: '/products/fashion/shoes1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Shoes.png',
           price: 1499.99,
           description: 'Professional running shoes with advanced cushioning',
           category: 'Fashion & Apparel',
@@ -104,7 +104,7 @@ export const fashionCategory: Category = {
         {
           id: 107,
           name: 'Designer Sunglasses',
-          image: '/products/fashion/sunglasses1.jpg',
+          image: '/ai_product_images/Fashion_&_Apparel/Accessories.png',
           price: 2999.99,
           description: 'Premium designer sunglasses with UV protection',
           category: 'Fashion & Apparel',

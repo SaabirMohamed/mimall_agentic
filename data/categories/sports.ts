@@ -14,7 +14,7 @@ export const sportsCategory: Category = {
         {
           id: 501,
           name: 'Smart Treadmill',
-          image: '/products/sports/treadmill1.jpg',
+          image: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
           price: 29999.99,
           description: 'Smart treadmill with virtual training',
           category: 'Sports & Fitness',
@@ -25,7 +25,7 @@ export const sportsCategory: Category = {
         {
           id: 502,
           name: 'Adjustable Dumbbell Set',
-          image: '/products/sports/dumbbells1.jpg',
+          image: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
           price: 4999.99,
           description: 'Space-saving adjustable dumbbells',
           category: 'Sports & Fitness',
@@ -42,7 +42,7 @@ export const sportsCategory: Category = {
         {
           id: 503,
           name: 'Performance Running Set',
-          image: '/products/sports/running1.jpg',
+          image: '/ai_product_images/Sports_&_Outdoors/Sportswear.png',
           price: 1499.99,
           description: 'Moisture-wicking running outfit',
           category: 'Sports & Fitness',
@@ -59,7 +59,7 @@ export const sportsCategory: Category = {
         {
           id: 504,
           name: 'Professional Soccer Ball',
-          image: '/products/sports/soccer1.jpg',
+          image: '/ai_product_images/Sports_&_Outdoors/Sports_Equipment.png',
           price: 799.99,
           description: 'Match-quality soccer ball',
           category: 'Sports & Fitness',

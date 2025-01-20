@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState, useMemo, useEffect, Suspense } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { getCategories } from '@/utils/supabase/queries'
+import { Category, Product, Store, Subcategory } from '@/types/categories'
+import Link from 'next/link'
 import Image from 'next/image'
-import * as Icons from 'lucide-react'
-import { categories } from '@/data/categories'
-import { Product, Store, Subcategory } from '@/types/categories'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Store as StoreIcon } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Icons } from '@/components/icons'
+import { useState, useEffect } from 'react'
 
 interface FilterState {
   category: string | null;
@@ -19,10 +20,11 @@ interface FilterState {
   searchTerm: string;
 }
 
-const ProductModal = ({ product, isOpen, onClose }: { 
+const ProductModal = ({ product, isOpen, onClose, categories }: { 
   product: Product | null; 
   isOpen: boolean; 
-  onClose: () => void 
+  onClose: () => void;
+  categories: Category[];
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
@@ -56,6 +58,19 @@ const ProductModal = ({ product, isOpen, onClose }: {
     });
   };
 
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find(category => category.id === categoryId);
+    return category ? category.name : 'Unknown Category';
+  };
+
+  const getSubcategoryName = (subcategoryId: string, categories: Category[]): string => {
+    for (const category of categories) {
+      const subcategory = category.subcategories?.find(sub => sub.id === subcategoryId);
+      if (subcategory) return subcategory.name;
+    }
+    return 'Unknown Subcategory';
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -76,10 +91,10 @@ const ProductModal = ({ product, isOpen, onClose }: {
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h2 className="text-2xl font-bold text-amber-500">{product.name}</h2>
-                <p className="text-gray-400">{product.category} / {product.subcategory}</p>
+                <p className="text-gray-400">{getCategoryName(product.category_id)} / {getSubcategoryName(product.subcategory_id, categories)}</p>
               </div>
               <button onClick={onClose} className="text-gray-400 hover:text-white">
-                <Icons.X size={24} />
+                <Icons.x size={24} />
               </button>
             </div>
 
@@ -95,7 +110,7 @@ const ProductModal = ({ product, isOpen, onClose }: {
                 </div>
                 <p className="text-gray-300">{product.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {product.tags.map(tag => (
+                  {product.tags?.map(tag => (
                     <span key={tag} className="px-2 py-1 bg-gray-800 rounded text-sm text-amber-500">
                       {tag}
                     </span>
@@ -132,8 +147,8 @@ const ProductModal = ({ product, isOpen, onClose }: {
                     <label className="text-gray-300 block mb-2">Select Store:</label>
                     <select 
                       className="w-full p-2 bg-gray-700 rounded text-white"
-                      value={selectedStore?.id}
-                      onChange={(e) => setSelectedStore(product.stores.find(s => s.id === Number(e.target.value)) || null)}
+                      value={selectedStore?.id || ''}
+                      onChange={(e) => setSelectedStore(product.stores.find(s => s.id === e.target.value) || null)}
                     >
                       {product.stores.map(store => (
                         <option key={store.id} value={store.id}>
@@ -155,7 +170,7 @@ const ProductModal = ({ product, isOpen, onClose }: {
                         }`}
                         onClick={() => setPaymentMethod('card')}
                       >
-                        <Icons.CreditCard className="inline-block mr-2" size={16} />
+                        <Icons.creditCard className="inline-block mr-2" size={16} />
                         Card
                       </button>
                       <button
@@ -166,7 +181,7 @@ const ProductModal = ({ product, isOpen, onClose }: {
                         }`}
                         onClick={() => setPaymentMethod('cash')}
                       >
-                        <Icons.Banknote className="inline-block mr-2" size={16} />
+                        <Icons.banknote className="inline-block mr-2" size={16} />
                         Cash
                       </button>
                     </div>
@@ -178,14 +193,14 @@ const ProductModal = ({ product, isOpen, onClose }: {
                       className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded flex items-center justify-center"
                       onClick={handleAddToCart}
                     >
-                      <Icons.ShoppingCart className="mr-2" size={16} />
+                      <Icons.shoppingCart className="mr-2" size={16} />
                       Add to Cart
                     </button>
                     <button 
                       className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 rounded flex items-center justify-center"
                       onClick={handleBuyNow}
                     >
-                      <Icons.CreditCard className="mr-2" size={16} />
+                      <Icons.creditCard className="mr-2" size={16} />
                       Buy Now
                     </button>
                   </div>
@@ -198,15 +213,15 @@ const ProductModal = ({ product, isOpen, onClose }: {
                       <h4 className="font-semibold text-white">{selectedStore.name}</h4>
                       <span className="text-sm text-green-400">{selectedStore.availability}</span>
                     </div>
-                    <div className="flex items-center text-gray-400 mb-2">
-                      <Icons.MapPin size={16} className="mr-2" />
+                    <div className="flex items-center text-gray-400 mb-4">
+                      <Icons.mapPin className="mr-2" size={16} />
                       <span>{selectedStore.location}</span>
                     </div>
                     <button 
-                      onClick={() => window.open(`https://www.google.com/maps?q=${selectedStore.coordinates.lat},${selectedStore.coordinates.lng}`)}
+                      onClick={() => window.open(`https://www.google.com/maps?q=${selectedStore.lat},${selectedStore.lng}`)}
                       className="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center"
                     >
-                      <Icons.Navigation className="mr-2" size={16} />
+                      <Icons.navigation className="mr-2" size={16} />
                       Get Directions
                     </button>
                   </div>
@@ -228,29 +243,49 @@ const SubcategoryProducts = ({
   onProductClick: (product: Product) => void;
 }) => {
   return (
-    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {subcategory.products.map((product) => (
+    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {subcategory.products?.map((product: Product) => (
         <motion.div
           key={product.id}
-          className="bg-gray-800 bg-opacity-50 rounded-lg p-4 cursor-pointer"
+          className="relative w-[280px] h-[400px] rounded-lg overflow-hidden cursor-pointer"
           whileHover={{ scale: 1.02 }}
           onClick={() => onProductClick(product)}
         >
-          <div className="flex items-center space-x-4">
-            <div className="relative w-20 h-20 bg-gray-700 rounded-lg overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white">{product.name}</h3>
-              <p className="text-amber-500">R {product.price.toLocaleString()}</p>
-              <div className="flex items-center text-gray-400 mt-1">
-                <Icons.Store size={16} className="mr-2" />
-                <span>{product.stores.length} stores available</span>
+          {/* White border overlay */}
+          <div className="absolute inset-0 border-[6px] border-white rounded-lg z-20"></div>
+          
+          {/* Image background */}
+          <div className="absolute inset-0 z-10">
+            <Image
+              src={product.images?.[0]?.image_url || '/placeholder.jpg'}
+              alt={product.name}
+              fill
+              sizes="280px"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              className="transition-transform duration-500 group-hover:scale-110"
+            />
+          </div>
+          
+          {/* Dark gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20"></div>
+          
+          {/* Content */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 z-30">
+            <h3 className="text-xl font-marvel font-bold text-white mb-1 drop-shadow-lg line-clamp-2">
+              {product.name}
+            </h3>
+            <p className="text-lg font-marvel text-amber-500 mb-3 drop-shadow-lg">
+              R {product.price.toLocaleString()}
+            </p>
+            
+            <div className="flex items-center space-x-4 text-white/90">
+              <div className="flex items-center">
+                <Icons.store size={16} className="mr-1" />
+                <span className="font-marvel text-sm">{product.stores?.length} store</span>
+              </div>
+              <div className="flex items-center">
+                <Icons.tag size={16} className="mr-1" />
+                <span className="font-marvel text-sm">{subcategory.name}</span>
               </div>
             </div>
           </div>
@@ -260,78 +295,20 @@ const SubcategoryProducts = ({
   );
 };
 
-const CategoriesPage = () => {
-  const router = useRouter()
-  const searchParams = useSearchParams()!
-  
-  // Initialize filters from URL parameters
-  const [filters, setFilters] = useState<FilterState>({
-    category: searchParams.get('category'),
-    subcategory: searchParams.get('subcategory'),
-    priceRange: { 
-      min: Number(searchParams.get('min_price')) || 0, 
-      max: Number(searchParams.get('max_price')) || 100000 
-    },
-    location: searchParams.get('location'),
-    searchTerm: searchParams.get('search') || ''
-  });
+export default function CategoriesPage() {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [categories, setCategories] = useState<Category[]>([])
 
-  // Update URL when filters change
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (filters.searchTerm) params.set('search', filters.searchTerm);
-    if (filters.category) params.set('category', filters.category);
-    if (filters.subcategory) params.set('subcategory', filters.subcategory);
-    if (filters.location) params.set('location', filters.location);
-    if (filters.priceRange.min > 0) params.set('min_price', filters.priceRange.min.toString());
-    if (filters.priceRange.max < 100000) params.set('max_price', filters.priceRange.max.toString());
-    
-    const url = params.toString() ? `?${params.toString()}` : '';
-    router.push(`/categories${url}`, { scroll: false });
-  }, [filters, router]);
-
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Get unique locations from all stores
-  const locations = useMemo(() => {
-    const locationSet = new Set<string>();
-    categories.forEach(category => 
-      category.subcategories.forEach(subcategory => 
-        subcategory.products.forEach(product => 
-          product.stores.forEach(store => 
-            locationSet.add(store.location)
-          )
-        )
-      )
-    );
-    return Array.from(locationSet);
-  }, []);
-
-  // Filter categories based on all criteria
-  const filteredCategories = useMemo(() => {
-    return categories.map(category => ({
-      ...category,
-      subcategories: category.subcategories.map(subcategory => ({
-        ...subcategory,
-        products: subcategory.products.filter(product => {
-          const matchesSearch = filters.searchTerm === '' || 
-            product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-            product.description.toLowerCase().includes(filters.searchTerm.toLowerCase());
-          
-          const matchesCategory = !filters.category || category.name === filters.category;
-          const matchesSubcategory = !filters.subcategory || subcategory.name === filters.subcategory;
-          const matchesPrice = product.price >= filters.priceRange.min && 
-                             product.price <= filters.priceRange.max;
-          const matchesLocation = !filters.location || 
-            product.stores.some(store => store.location === filters.location);
-          
-          return matchesSearch && matchesCategory && matchesSubcategory && 
-                 matchesPrice && matchesLocation;
-        })
-      })).filter(sub => sub.products.length > 0)
-    })).filter(cat => cat.subcategories.length > 0);
-  }, [filters]);
+    const loadCategories = async () => {
+      const cats = await getCategories()
+      if (cats) {
+        setCategories(cats)
+      }
+    }
+    loadCategories()
+  }, [])
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -339,143 +316,63 @@ const CategoriesPage = () => {
   };
 
   return (
-    <>
-      <motion.div
-        className="container mx-auto my-8 px-4 text-gray-200"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <motion.h1
-          className="text-4xl text-amber-500 mb-6"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Product Categories
-        </motion.h1>
-
-        {/* Enhanced Filter Section */}
-        <motion.div 
-          className="mb-8 glass bg-opacity-30 p-6 rounded-lg border-2 border-white/20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-amber-500"
-              value={filters.searchTerm}
-              onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
-            />
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Categories</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {categories.map((category: Category) => (
+          <div key={category.id} className="border rounded-lg p-4">
+            <h2 className="text-xl font-semibold mb-2 flex items-center">
+              <span className="material-icons mr-2">{category.icon}</span>
+              {category.name}
+            </h2>
+            <p className="text-gray-600 mb-4">{category.description}</p>
             
-            <select
-              className="w-full p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-amber-500"
-              value={filters.category || ''}
-              onChange={(e) => setFilters(prev => ({ 
-                ...prev, 
-                category: e.target.value || null,
-                subcategory: null // Reset subcategory when category changes
-              }))}
-            >
-              <option value="">All Categories</option>
-              {categories.map(category => (
-                <option key={category.id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className="w-full p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-amber-500"
-              value={filters.location || ''}
-              onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value || null }))}
-            >
-              <option value="">All Locations</option>
-              {locations.map(location => (
-                <option key={location} value={location}>
-                  {location}
-                </option>
-              ))}
-            </select>
-
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                placeholder="Min Price"
-                className="w-1/2 p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-amber-500"
-                value={filters.priceRange.min}
-                onChange={(e) => setFilters(prev => ({ 
-                  ...prev, 
-                  priceRange: { ...prev.priceRange, min: Number(e.target.value) }
-                }))}
-              />
-              <input
-                type="number"
-                placeholder="Max Price"
-                className="w-1/2 p-3 rounded bg-gray-800 bg-opacity-50 border border-gray-700 focus:border-amber-500"
-                value={filters.priceRange.max}
-                onChange={(e) => setFilters(prev => ({ 
-                  ...prev, 
-                  priceRange: { ...prev.priceRange, max: Number(e.target.value) }
-                }))}
-              />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-          {filteredCategories.map((category) => (
-            <motion.div
-              key={category.id}
-              className="bg-gray-900 bg-opacity-70 shadow-xl rounded-lg p-6 border-2 border-white/30 hover:border-white/50 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="flex items-center mb-4">
-                {/* @ts-expect-error - Dynamic icon access from lucide-react */}
-                {Icons[category.icon] && React.createElement(Icons[category.icon], {
-                  className: "text-amber-500 mr-3",
-                  size: 32
-                })}
-                <div>
-                  <h2 className="text-xl font-semibold text-white">{category.name}</h2>
-                  <p className="text-sm text-gray-400">{category.description}</p>
+            {category.subcategories?.map((subcategory) => (
+              <div key={subcategory.id} className="mb-4">
+                <h3 className="font-medium mb-2">{subcategory.name}</h3>
+                <div className="grid grid-cols-1 gap-2">
+                  {subcategory.products?.map((product) => (
+                    <Link 
+                      key={product.id}
+                      href={`/product/${product.id}`}
+                      className="block hover:bg-gray-50 p-2 rounded"
+                    >
+                      <div className="flex items-center">
+                        {product.image && (
+                          <Image 
+                            src={product.image} 
+                            alt={product.name}
+                            width={64}
+                            height={64}
+                            className="object-cover rounded mr-2"
+                          />
+                        )}
+                        <div>
+                          <div className="font-medium">{product.name}</div>
+                          <div className="text-sm text-gray-600">
+                            ${product.price.toFixed(2)}
+                          </div>
+                          <div className="text-sm text-gray-500 flex items-center">
+                            <StoreIcon className="w-4 h-4 mr-1" />
+                            {product.stores?.[0]?.availability || 'Checking availability...'}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
+            ))}
+          </div>
+        ))}
+      </div>
 
-              {category.subcategories.map(subcategory => (
-                <div key={subcategory.name} className="mb-6 last:mb-0">
-                  <h3 className="text-lg font-medium text-amber-500 mb-2">
-                    {subcategory.name}
-                  </h3>
-                  <SubcategoryProducts 
-                    subcategory={subcategory}
-                    onProductClick={handleProductClick}
-                  />
-                </div>
-              ))}
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      <ProductModal
-        product={selectedProduct}
-        isOpen={isModalOpen}
+      <ProductModal 
+        product={selectedProduct} 
+        isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}
+        categories={categories}
       />
-    </>
-  );
-};
-
-export default function Page() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CategoriesPage />
-    </Suspense>
+    </div>
   )
 }
