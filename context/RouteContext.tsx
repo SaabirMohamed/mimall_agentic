@@ -4,12 +4,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 type RouteContextType = {
-  currentRoute: string
+  currentRoute: string | null
   isAgenticUIVisible: boolean
 }
 
 const RouteContext = createContext<RouteContextType>({
-  currentRoute: '',
+  currentRoute: null,
   isAgenticUIVisible: true
 })
 
