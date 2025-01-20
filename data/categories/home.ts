@@ -3,9 +3,11 @@ import { generateStores } from '../stores';
 
 export const homeCategory: Category = {
   id: '3',
-  name: 'Home & Living',
+  name: 'Home',
   icon: 'Home',
-  description: 'Furniture and home decor',
+  image: '/categories/home.jpg',
+  image_url: '/categories/home.jpg',
+  description: 'Home decor and furniture',
   subcategories: [
     {
       id: '301',
@@ -19,6 +21,7 @@ export const homeCategory: Category = {
           id: '301',
           name: 'Modern Sofa Set',
           image: '/ai_product_images/Home_&_Living/Furniture_(Bedroom.png',
+          image_url: '/ai_product_images/Home_&_Living/Furniture_(Bedroom.png',
           price: 19999.99,
           description: 'Contemporary 3-seater sofa with ottoman',
           category: 'Home & Living',
@@ -39,6 +42,7 @@ export const homeCategory: Category = {
           id: '302',
           name: 'Dining Table Set',
           image: '/ai_product_images/Home_&_Living/Furniture_(Bedroom.png',
+          image_url: '/ai_product_images/Home_&_Living/Furniture_(Bedroom.png',
           price: 15999.99,
           description: '6-seater dining table with chairs',
           category: 'Home & Living',
@@ -69,6 +73,7 @@ export const homeCategory: Category = {
           id: '303',
           name: 'Abstract Wall Art',
           image: '/ai_product_images/Home_&_Living/Decor_(Art.png',
+          image_url: '/ai_product_images/Home_&_Living/Decor_(Art.png',
           price: 2999.99,
           description: 'Modern abstract canvas wall art',
           category: 'Home & Living',
@@ -99,6 +104,7 @@ export const homeCategory: Category = {
           id: '304',
           name: 'Modern Chandelier',
           image: '/ai_product_images/Home_&_Living/Lighting_(Chandelier.png',
+          image_url: '/ai_product_images/Home_&_Living/Lighting_(Chandelier.png',
           price: 8999.99,
           description: 'Contemporary crystal chandelier',
           category: 'Home & Living',
@@ -129,6 +135,7 @@ export const homeCategory: Category = {
           id: '305',
           name: 'Coffee Maker Pro',
           image: '/ai_product_images/Home_&_Living/Kitchenware_(Cookware.png',
+          image_url: '/ai_product_images/Home_&_Living/Kitchenware_(Cookware.png',
           price: 4999.99,
           description: 'Professional grade coffee maker',
           category: 'Home & Living',

@@ -22,23 +22,29 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Please enter your email and password');
+          return null
         }
 
-        const { data: { user }, error } = await supabase.auth.signInWithPassword({
-          email: credentials.email,
-          password: credentials.password,
-        });
+        try {
+          const { data: { session }, error } = await supabase.auth.signInWithPassword({
+            email: credentials.email,
+            password: credentials.password,
+          })
 
-        if (error) {
-          throw new Error(error.message);
+          if (error || !session?.user) {
+            console.error('Supabase auth error:', error)
+            return null
+          }
+
+          return {
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.user_metadata?.name || session.user.email
+          }
+        } catch (error) {
+          console.error('Auth error:', error)
+          return null
         }
-
-        return {
-          id: user?.id,
-          email: user?.email,
-          name: user?.user_metadata?.full_name,
-        };
       }
     })
   ],
@@ -60,7 +66,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && session.user) {
         session.user.id = token.userId as string;
         session.user.accessToken = token.accessToken as string;
       }

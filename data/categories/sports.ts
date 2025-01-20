@@ -5,6 +5,8 @@ export const sportsCategory: Category = {
   id: '5',
   name: 'Sports & Fitness',
   icon: 'Dumbbell',
+  image: '/categories/sports.jpg',
+  image_url: '/categories/sports.jpg',
   description: 'Sports equipment and fitness gear',
   subcategories: [
     {
@@ -18,7 +20,8 @@ export const sportsCategory: Category = {
         {
           id: '501',
           name: 'Smart Treadmill',
-          image: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
+          image: '/products/sports/treadmill.jpg',
+          image_url: '/products/sports/treadmill.jpg',
           price: 29999.99,
           description: 'Smart treadmill with virtual training',
           category: 'Sports & Fitness',
@@ -39,6 +42,7 @@ export const sportsCategory: Category = {
           id: '502',
           name: 'Adjustable Dumbbell Set',
           image: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
+          image_url: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
           price: 4999.99,
           description: 'Space-saving adjustable dumbbells',
           category: 'Sports & Fitness',
@@ -69,6 +73,7 @@ export const sportsCategory: Category = {
           id: '503',
           name: 'Performance Running Set',
           image: '/ai_product_images/Sports_&_Outdoors/Sportswear.png',
+          image_url: '/ai_product_images/Sports_&_Outdoors/Sportswear.png',
           price: 1499.99,
           description: 'High-performance running outfit',
           category: 'Sports & Fitness',
@@ -99,6 +104,7 @@ export const sportsCategory: Category = {
           id: '504',
           name: 'Professional Soccer Ball',
           image: '/ai_product_images/Sports_&_Outdoors/Sports_Equipment.png',
+          image_url: '/ai_product_images/Sports_&_Outdoors/Sports_Equipment.png',
           price: 799.99,
           description: 'Competition-grade soccer ball',
           category: 'Sports & Fitness',

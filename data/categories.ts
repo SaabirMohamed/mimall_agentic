@@ -20,7 +20,7 @@ export const categories: Category[] = [
           {
             id: '101',
             name: 'Summer Floral Dress',
-            image: '/ai_product_images/Fashion_&_Apparel/summer_floral_dress.png',
+            image_url: '/ai_product_images/Fashion_&_Apparel/summer_floral_dress.png',
             price: 1299.99,
             description: 'Light and breezy summer dress with floral pattern',
             category: 'Fashion & Apparel',
@@ -75,7 +75,7 @@ export const categories: Category[] = [
           {
             id: '102',
             name: 'Classic Suit',
-            image: '/ai_product_images/Fashion_&_Apparel/Coats.png',
+            image_url: '/ai_product_images/Fashion_&_Apparel/Coats.png',
             price: 4999.99,
             description: 'High-quality business suit for men',
             category: 'Fashion & Apparel',
@@ -140,7 +140,7 @@ export const categories: Category[] = [
           {
             id: '201',
             name: 'Premium Smartphone X',
-            image: '/ai_product_images/Electronics/mobile_phones.png',
+            image_url: '/ai_product_images/Electronics/mobile_phones.png',
             price: 15999.99,
             description: '5G enabled smartphone with pro camera system',
             category: 'Electronics',
@@ -193,7 +193,7 @@ export const categories: Category[] = [
           {
             id: '301',
             name: 'Modern Sofa',
-            image: '/ai_product_images/Home_&_Living/Home_Decor.png',
+            image_url: '/ai_product_images/Home_&_Living/Home_Decor.png',
             price: 9999.99,
             description: 'Stylish and comfortable sofa for your living room',
             category: 'Home & Garden',
@@ -236,7 +236,7 @@ export const categories: Category[] = [
           {
             id: '302',
             name: 'Stainless Steel Frying Pan',
-            image: '/ai_product_images/Home_and_Living/Kitchenware.png',
+            image_url: '/ai_product_images/Home_and_Living/Kitchenware.png',
             price: 499.99,
             description: 'High-quality non-stick frying pan',
             category: 'Home & Garden',
@@ -289,7 +289,7 @@ export const categories: Category[] = [
           {
             id: '401',
             name: 'Adjustable Dumbbells',
-            image: '/ai_product_images/fitness.png',
+            image_url: '/ai_product_images/fitness.png',
             price: 299.99,
             description: 'High-quality adjustable dumbbells',
             category: 'Sports & Outdoors',
@@ -332,7 +332,7 @@ export const categories: Category[] = [
           {
             id: '402',
             name: 'Waterproof Tent',
-            image: '/ai_product_images/Sports_and_Outdoors/Camping_and_Hiking_Equipment.png',
+            image_url: '/ai_product_images/Sports_and_Outdoors/Camping_and_Hiking_Equipment.png',
             price: 1999.99,
             description: 'High-quality waterproof tent for camping',
             category: 'Sports & Outdoors',
@@ -385,7 +385,7 @@ export const categories: Category[] = [
           {
             id: '501',
             name: 'Moisturizing Cream',
-            image: '/ai_product_images/Health_and_Beauty/Skincare.png',
+            image_url: '/ai_product_images/Health_and_Beauty/Skincare.png',
             price: 99.99,
             description: 'Nourishing moisturizing cream',
             category: 'Health & Beauty',
@@ -428,7 +428,7 @@ export const categories: Category[] = [
           {
             id: '502',
             name: 'Lipstick Set',
-            image: '/ai_product_images/Health_and_Beauty/Makeup.png',
+            image_url: '/ai_product_images/Health_and_Beauty/Makeup.png',
             price: 199.99,
             description: 'Set of 6 lipsticks',
             category: 'Health & Beauty',
@@ -481,7 +481,7 @@ export const categories: Category[] = [
           {
             id: '601',
             name: 'Teddy Bear',
-            image: '/ai_product_images/Baby_and_Kids/Toys_and_Games.png',
+            image_url: '/ai_product_images/Baby_and_Kids/Toys_and_Games.png',
             price: 49.99,
             description: 'Cuddly teddy bear',
             category: 'Baby & Kids',
@@ -524,7 +524,7 @@ export const categories: Category[] = [
           {
             id: '602',
             name: 'Onesie',
-            image: '/ai_product_images/Baby_and_Kids/Clothing_and_Shoes.png',
+            image_url: '/ai_product_images/Baby_and_Kids/Clothing_and_Shoes.png',
             price: 29.99,
             description: 'Adorable onesie',
             category: 'Baby & Kids',
@@ -577,7 +577,7 @@ export const categories: Category[] = [
           {
             id: '701',
             name: 'Dry Dog Food',
-            image: '/ai_product_images/Pets/Pet_Food.png',
+            image_url: '/ai_product_images/Pets/Pet_Food.png',
             price: 49.99,
             description: 'High-quality dry dog food',
             category: 'Pet Care',
@@ -620,7 +620,7 @@ export const categories: Category[] = [
           {
             id: '702',
             name: 'Pet Ball',
-            image: '/ai_product_images/Pets/Pet_Toys_and_Accessories.png',
+            image_url: '/ai_product_images/Pets/Pet_Toys_and_Accessories.png',
             price: 29.99,
             description: 'Durable pet ball',
             category: 'Pet Care',
@@ -673,7 +673,7 @@ export const categories: Category[] = [
           {
             id: '801',
             name: 'Acrylic Paint Set',
-            image: '/ai_product_images/Art_and_Crafts/Painting_Supplies.png',
+            image_url: '/ai_product_images/Art_and_Crafts/Painting_Supplies.png',
             price: 99.99,
             description: 'High-quality acrylic paint set',
             category: 'Arts & Crafts',
@@ -716,7 +716,7 @@ export const categories: Category[] = [
           {
             id: '802',
             name: 'Jewelry Box',
-            image: '/ai_product_images/Art_and_Crafts/Jewelry_and_Accessories.png',
+            image_url: '/ai_product_images/Art_and_Crafts/Jewelry_and_Accessories.png',
             price: 199.99,
             description: 'Handmade jewelry box',
             category: 'Arts & Crafts',

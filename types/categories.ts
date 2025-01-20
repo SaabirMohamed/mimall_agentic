@@ -14,7 +14,8 @@ export interface Store {
 export interface Product {
   id: string;  // UUID
   name: string;
-  image: string;
+  image?: string;  // Make image optional since we're using image_url
+  image_url: string;
   price: number;
   category: string;
   subcategory: string;
@@ -23,7 +24,7 @@ export interface Product {
   stock_quantity: number;
   category_id: string;  // UUID reference to categories
   subcategory_id: string;  // UUID reference to subcategories
-  vendor_id: string;  // UUID reference to auth.users
+  vendor_id: string;  // UUID reference to vendors
   location: string | null;
   area_name: string | null;
   created_at: string;  // ISO timestamp
@@ -50,6 +51,8 @@ export interface Category {
   id: string;  // UUID
   name: string;
   icon: string;
+  image?: string;
+  image_url?: string;
   description: string;
   created_at?: string;  // ISO timestamp
   updated_at?: string;  // ISO timestamp
