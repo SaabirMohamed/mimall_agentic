@@ -32,91 +32,54 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-black bg-opacity-20 position-sticky top-0 shadow-md">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-black/40 sticky top-0 z-50 backdrop-blur-sm border-b border-white/10">
+      <nav className="container mx-auto px-4">
         <div className="flex justify-between h-16">
-          <div className="flex  items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center border-amber-600 border border-solid p-2 rounded-lg border-[5px] " >
-              <Image src="/mimall-bg.jpg" alt="MiMall Logo" width={120} height={40} className="block" />
+          <div className="flex items-center space-x-8">
+            <Link href="/" className="flex-shrink-0 flex items-center">
+              <div className="border-2 border-amber-600 rounded-lg p-1">
+                <Image src="/mimall-bg.jpg" alt="MiMall Logo" width={120} height={40} className="block" />
+              </div>
             </Link>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link href="/" className="text-gray-900 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+            <div className="hidden md:flex items-center space-x-4">
+              <Link href="/" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Home
               </Link>
-              <Link href="/stores" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/stores" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Stores
               </Link>
-              <Link href="/categories" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/categories" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Categories
               </Link>
-              <Link href="/locations" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/locations" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Locations
               </Link>
-              <Link href="/michina" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                MiChina
-              </Link>
-              {/* <Link href="/hailoride" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                HailoRide
-              </Link> */}
-              <Link href="/miia" className="text-white hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                MiiA Medical
-              </Link>
-              {isLoggedIn && (
-                <Link href="/dashboard" className="text-amber-600 hover:text-purple-800 px-3 py-2 rounded-md text-sm font-medium">
-                  Dashboard
-                </Link>
-              )}
             </div>
           </div>
-          <div className="flex items-center">
-            {!isLoggedIn ? (
-              <>
-                <div className="flex space-x-2 mr-4">
-                  <input
-                    type="radio"
-                    id="shopper"
-                    name="userType"
-                    value="shopper"
-                    defaultChecked
-                    className="form-radio text-purple-600"
-                  />
-                  <label htmlFor="shopper" className="text-sm text-amber-600">Shopper</label>
-                  
-                  <input
-                    type="radio"
-                    id="seller"
-                    name="userType"
-                    value="seller"
-                    className="form-radio text-purple-600 ml-2"
-                  />
-                  <label htmlFor="seller" className="text-sm text-amber-600">Seller</label>
-                  
-                  <input
-                    type="radio"
-                    id="healthcare"
-                    name="userType"
-                    value="healthcare"
-                    className="form-radio text-purple-600 ml-2 p-2"
-                  />
-                  <label htmlFor="healthcare" className="text-sm text-amber-600">Healthcare</label>
-                </div>
-                <Link
-                  href="/login"
-                  className="bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
-                >
-                  Login
-                </Link>
-              </>
+
+          <div className="flex items-center space-x-4">
+            <Link href="/mimall-medical" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              MiLA Medical
+            </Link>
+            <Link href="/seller" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Seller
+            </Link>
+            <Link href="/healthcare" className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Healthcare
+            </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={() => supabase.auth.signOut()}
+                className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Logout
+              </button>
             ) : (
               <Link
                 href="/login"
-                className="bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-amber-600"
-                onClick={async () => {
-                  await supabase.auth.signOut()
-                  setIsLoggedIn(false)
-                }}
+                className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
-                Logout
+                Login
               </Link>
             )}
           </div>
