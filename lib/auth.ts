@@ -9,7 +9,8 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      async authorize(_credentials) {
         // For now, allow anonymous access
         return null;
       }
@@ -22,7 +23,7 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session }) {
       return session;
     },
     async jwt({ token }) {

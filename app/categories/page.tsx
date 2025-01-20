@@ -1,11 +1,11 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import * as Icons from 'lucide-react'
 import { categories } from '@/data/categories'
-import { Category, Product, Store, Subcategory } from '@/types/categories'
+import { Product, Store, Subcategory } from '@/types/categories'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 interface FilterState {
@@ -436,7 +436,7 @@ const CategoriesPage = () => {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center mb-4">
-                {/* @ts-ignore */}
+                {/* @ts-expect-error - Dynamic icon access from lucide-react */}
                 {Icons[category.icon] && React.createElement(Icons[category.icon], {
                   className: "text-amber-500 mr-3",
                   size: 32
@@ -472,4 +472,10 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CategoriesPage />
+    </Suspense>
+  )
+}
