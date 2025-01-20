@@ -2,17 +2,21 @@ import { Category } from '../../types/categories';
 import { generateStores } from '../stores';
 
 export const sportsCategory: Category = {
-  id: 5,
+  id: '5',
   name: 'Sports & Fitness',
   icon: 'Dumbbell',
   description: 'Sports equipment and fitness gear',
   subcategories: [
     {
+      id: '501',
+      category_id: '5',
       name: 'Exercise Equipment',
       description: 'Home gym and fitness equipment',
+      created_at: '2024-01-01T00:00:00Z',
+      updated_at: '2024-01-01T00:00:00Z',
       products: [
         {
-          id: 501,
+          id: '501',
           name: 'Smart Treadmill',
           image: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
           price: 29999.99,
@@ -20,10 +24,19 @@ export const sportsCategory: Category = {
           category: 'Sports & Fitness',
           subcategory: 'Exercise Equipment',
           tags: ['fitness', 'cardio', 'smart'],
+          category_id: '5',
+          subcategory_id: '501',
+          vendor_id: 'vendor89',
+          sku: 'ST-501',
+          stock_quantity: 10,
+          location: 'Sports Wing',
+          area_name: 'Fitness Section',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z',
           stores: generateStores(89)
         },
         {
-          id: 502,
+          id: '502',
           name: 'Adjustable Dumbbell Set',
           image: '/ai_product_images/Sports_&_Outdoors/Fitness_Equipment.png',
           price: 4999.99,
@@ -31,40 +44,75 @@ export const sportsCategory: Category = {
           category: 'Sports & Fitness',
           subcategory: 'Exercise Equipment',
           tags: ['fitness', 'weights', 'adjustable'],
+          category_id: '5',
+          subcategory_id: '501',
+          vendor_id: 'vendor93',
+          sku: 'AD-502',
+          stock_quantity: 20,
+          location: 'Sports Wing',
+          area_name: 'Fitness Section',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z',
           stores: generateStores(93)
         }
       ]
     },
     {
-      name: 'Sportswear',
-      description: 'Athletic clothing and accessories',
+      id: '502',
+      category_id: '5',
+      name: 'Sports Wear',
+      description: 'Athletic and sports clothing',
+      created_at: '2024-01-01T00:00:00Z',
+      updated_at: '2024-01-01T00:00:00Z',
       products: [
         {
-          id: 503,
+          id: '503',
           name: 'Performance Running Set',
           image: '/ai_product_images/Sports_&_Outdoors/Sportswear.png',
           price: 1499.99,
-          description: 'Moisture-wicking running outfit',
+          description: 'High-performance running outfit',
           category: 'Sports & Fitness',
-          subcategory: 'Sportswear',
+          subcategory: 'Sports Wear',
           tags: ['clothing', 'running', 'performance'],
+          category_id: '5',
+          subcategory_id: '502',
+          vendor_id: 'vendor97',
+          sku: 'PR-503',
+          stock_quantity: 50,
+          location: 'Sports Wing',
+          area_name: 'Clothing Section',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z',
           stores: generateStores(97)
         }
       ]
     },
     {
-      name: 'Team Sports',
-      description: 'Equipment for team sports',
+      id: '503',
+      category_id: '5',
+      name: 'Sports Equipment',
+      description: 'Equipment for various sports',
+      created_at: '2024-01-01T00:00:00Z',
+      updated_at: '2024-01-01T00:00:00Z',
       products: [
         {
-          id: 504,
+          id: '504',
           name: 'Professional Soccer Ball',
           image: '/ai_product_images/Sports_&_Outdoors/Sports_Equipment.png',
           price: 799.99,
-          description: 'Match-quality soccer ball',
+          description: 'Competition-grade soccer ball',
           category: 'Sports & Fitness',
-          subcategory: 'Team Sports',
+          subcategory: 'Sports Equipment',
           tags: ['soccer', 'sports', 'professional'],
+          category_id: '5',
+          subcategory_id: '503',
+          vendor_id: 'vendor101',
+          sku: 'SB-504',
+          stock_quantity: 100,
+          location: 'Sports Wing',
+          area_name: 'Equipment Section',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z',
           stores: generateStores(101)
         }
       ]

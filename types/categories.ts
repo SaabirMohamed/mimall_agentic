@@ -7,7 +7,8 @@ export interface Store {
   owner_id: string;  // UUID reference to auth.users
   availability: 'In Stock' | 'Out of Stock' | 'Limited Stock';
   created_at: string;  // ISO timestamp
-  updated_at: string;  // ISO timestamp
+  updated_at: string;
+  coordinates: { lat: number; lng: number };  // ISO timestamp
 }
 
 export interface Product {

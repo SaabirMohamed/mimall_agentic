@@ -23,6 +23,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Fashion_&_Apparel/summer_floral_dress.png',
             price: 1299.99,
             description: 'Light and breezy summer dress with floral pattern',
+            category: 'Fashion & Apparel',
+            subcategory: "Women's Clothing",
             category_id: '1',
             subcategory_id: '1',
             vendor_id: 'vendor1',
@@ -43,7 +45,20 @@ export const categories: Category[] = [
                 owner_id: 'owner1',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.0167, lng: 28.1167 }
+              },
+              {
+                id: '2',
+                name: 'Fashion Hub',
+                location: 'Mall of Africa',
+                lat: -26.0167,
+                lng: 28.1167,
+                owner_id: 'owner1',
+                availability: 'In Stock',
+                created_at: '2024-01-01T00:00:00Z',
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.0167, lng: 28.1167 }
               }
             ]
           }
@@ -63,6 +78,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Fashion_&_Apparel/Coats.png',
             price: 4999.99,
             description: 'High-quality business suit for men',
+            category: 'Fashion & Apparel',
+            subcategory: "Men's Clothing",
             category_id: '1',
             subcategory_id: '2',
             vendor_id: 'vendor2',
@@ -83,7 +100,20 @@ export const categories: Category[] = [
                 owner_id: 'owner2',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1067, lng: 28.0567 }
+              },
+              {
+                id: '3',
+                name: 'Suits & Co',
+                location: 'Sandton City',
+                lat: -26.1067,
+                lng: 28.0567,
+                owner_id: 'owner2',
+                availability: 'In Stock',
+                created_at: '2024-01-01T00:00:00Z',
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1067, lng: 28.0567 }  
               }
             ]
           }
@@ -113,6 +143,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Electronics/mobile_phones.png',
             price: 15999.99,
             description: '5G enabled smartphone with pro camera system',
+            category: 'Electronics',
+            subcategory: 'Smartphones',
             category_id: '2',
             subcategory_id: '3',
             vendor_id: 'vendor3',
@@ -133,7 +165,8 @@ export const categories: Category[] = [
                 owner_id: 'owner3',
                 availability: 'Limited Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1833, lng: 28.1167 }
               }
             ]
           }
@@ -163,6 +196,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Home_&_Living/Home_Decor.png',
             price: 9999.99,
             description: 'Stylish and comfortable sofa for your living room',
+            category: 'Home & Garden',
+            subcategory: 'Furniture',
             category_id: '3',
             subcategory_id: '4',
             vendor_id: 'vendor4',
@@ -183,7 +218,8 @@ export const categories: Category[] = [
                 owner_id: 'owner4',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.0167, lng: 28.0167 }
               }
             ]
           }
@@ -203,6 +239,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Home_and_Living/Kitchenware.png',
             price: 499.99,
             description: 'High-quality non-stick frying pan',
+            category: 'Home & Garden',
+            subcategory: 'Kitchenware',
             category_id: '3',
             subcategory_id: '5',
             vendor_id: 'vendor5',
@@ -223,7 +261,8 @@ export const categories: Category[] = [
                 owner_id: 'owner5',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 27.9667 }
               }
             ]
           }
@@ -253,6 +292,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/fitness.png',
             price: 299.99,
             description: 'High-quality adjustable dumbbells',
+            category: 'Sports & Outdoors',
+            subcategory: 'Fitness',
             category_id: '4',
             subcategory_id: '6',
             vendor_id: 'vendor6',
@@ -273,7 +314,8 @@ export const categories: Category[] = [
                 owner_id: 'owner6',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 28.0167 }
               }
             ]
           }
@@ -293,6 +335,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Sports_and_Outdoors/Camping_and_Hiking_Equipment.png',
             price: 1999.99,
             description: 'High-quality waterproof tent for camping',
+            category: 'Sports & Outdoors',
+            subcategory: 'Camping',
             category_id: '4',
             subcategory_id: '7',
             vendor_id: 'vendor7',
@@ -313,7 +357,8 @@ export const categories: Category[] = [
                 owner_id: 'owner7',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.0667, lng: 28.0167 }
               }
             ]
           }
@@ -343,6 +388,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Health_and_Beauty/Skincare.png',
             price: 99.99,
             description: 'Nourishing moisturizing cream',
+            category: 'Health & Beauty',
+            subcategory: 'Skincare',
             category_id: '5',
             subcategory_id: '8',
             vendor_id: 'vendor8',
@@ -363,7 +410,8 @@ export const categories: Category[] = [
                 owner_id: 'owner8',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 28.0667 }
               }
             ]
           }
@@ -383,6 +431,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Health_and_Beauty/Makeup.png',
             price: 199.99,
             description: 'Set of 6 lipsticks',
+            category: 'Health & Beauty',
+            subcategory: 'Makeup',
             category_id: '5',
             subcategory_id: '9',
             vendor_id: 'vendor9',
@@ -403,7 +453,8 @@ export const categories: Category[] = [
                 owner_id: 'owner9',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1067, lng: 28.0567 }
               }
             ]
           }
@@ -433,6 +484,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Baby_and_Kids/Toys_and_Games.png',
             price: 49.99,
             description: 'Cuddly teddy bear',
+            category: 'Baby & Kids',
+            subcategory: 'Toys',
             category_id: '6',
             subcategory_id: '10',
             vendor_id: 'vendor10',
@@ -453,7 +506,8 @@ export const categories: Category[] = [
                 owner_id: 'owner10',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 27.9667 }
               }
             ]
           }
@@ -473,6 +527,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Baby_and_Kids/Clothing_and_Shoes.png',
             price: 29.99,
             description: 'Adorable onesie',
+            category: 'Baby & Kids',
+            subcategory: 'Clothing',
             category_id: '6',
             subcategory_id: '11',
             vendor_id: 'vendor11',
@@ -493,7 +549,8 @@ export const categories: Category[] = [
                 owner_id: 'owner11',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 27.8667 }
               }
             ]
           }
@@ -523,6 +580,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Pets/Pet_Food.png',
             price: 49.99,
             description: 'High-quality dry dog food',
+            category: 'Pet Care',
+            subcategory: 'Food',
             category_id: '7',
             subcategory_id: '12',
             vendor_id: 'vendor12',
@@ -543,7 +602,8 @@ export const categories: Category[] = [
                 owner_id: 'owner12',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.0167, lng: 28.0167 }
               }
             ]
           }
@@ -563,6 +623,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Pets/Pet_Toys_and_Accessories.png',
             price: 29.99,
             description: 'Durable pet ball',
+            category: 'Pet Care',
+            subcategory: 'Toys',
             category_id: '7',
             subcategory_id: '13',
             vendor_id: 'vendor13',
@@ -583,7 +645,8 @@ export const categories: Category[] = [
                 owner_id: 'owner13',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 27.9667 }
               }
             ]
           }
@@ -613,6 +676,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Art_and_Crafts/Painting_Supplies.png',
             price: 99.99,
             description: 'High-quality acrylic paint set',
+            category: 'Arts & Crafts',
+            subcategory: 'Painting',
             category_id: '8',
             subcategory_id: '14',
             vendor_id: 'vendor14',
@@ -633,7 +698,8 @@ export const categories: Category[] = [
                 owner_id: 'owner14',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.1167, lng: 28.0167 }
               }
             ]
           }
@@ -653,6 +719,8 @@ export const categories: Category[] = [
             image: '/ai_product_images/Art_and_Crafts/Jewelry_and_Accessories.png',
             price: 199.99,
             description: 'Handmade jewelry box',
+            category: 'Arts & Crafts',
+            subcategory: 'Crafts',
             category_id: '8',
             subcategory_id: '15',
             vendor_id: 'vendor15',
@@ -673,7 +741,8 @@ export const categories: Category[] = [
                 owner_id: 'owner15',
                 availability: 'In Stock',
                 created_at: '2024-01-01T00:00:00Z',
-                updated_at: '2024-01-01T00:00:00Z'
+                updated_at: '2024-01-01T00:00:00Z',
+                coordinates: { lat: -26.0667, lng: 28.0167 }
               }
             ]
           }
