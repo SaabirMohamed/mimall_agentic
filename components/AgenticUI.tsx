@@ -49,8 +49,11 @@ export default function AgenticUI({ children }: AgenticUIProps) {
     onAgentResponseCorrection: (payload: { correction: { text: string } }) => {
       console.log('Agent response correction received:', payload);
     }
+
   });
 
+
+  
   // Initialize or get session
   const initializeSession = useCallback(async (newSessionId: string) => {
     if (!newSessionId) return false;
@@ -181,7 +184,8 @@ export default function AgenticUI({ children }: AgenticUIProps) {
               // Ensure session exists before returning ID
               const sessionExists = await initializeSession(sessionId);
               return sessionExists ? sessionId : '';
-            }
+            },
+            
           }
         });
         setIsActive(true);
@@ -217,7 +221,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
           textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
           opacity: isActive ? 1 : 0.7
         }}>
-        {sessionId}
+        {sessionId.toLowerCase().includes('anon') ? '' : sessionId}
       </div>
       
       {/* Reset Button - only show when there's HTML content */}
@@ -229,7 +233,7 @@ export default function AgenticUI({ children }: AgenticUIProps) {
             boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
           }}
         >
-          ✨ Clear Generated content
+          ✨ Clear Generated content ✨
         </div>
       )}
       

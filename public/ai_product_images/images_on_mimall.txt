@@ -1,0 +1,172 @@
+.
+├── Art_&_Crafts
+│   ├── DIY_Kits.png
+│   ├── Fabrics_&_Sewing_Accessories.png
+│   ├── Painting_Supplies.png
+│   └── Scrapbooking_Materials.png
+├── Automotive
+│   ├── Audio_Systems).png
+│   ├── Auto_Cleaning_Supplies.png
+│   ├── Car_Accessories_(Seat_Covers.png
+│   ├── Car_Electronics_(Dashcams.png
+│   ├── Mats).png
+│   ├── Motorbike_Accessories.png
+│   ├── Tires_&_Wheels.png
+│   └── Tools_&_Equipment.png
+├── Baby_&_Kids
+│   ├── Baby_Care_(Diapers.png
+│   ├── Baby_Feeding_&_Nursing.png
+│   ├── Baby_Gear_(Car_Seats.png
+│   ├── Bathing_Essentials).png
+│   ├── Clothing_&_Shoes.png
+│   ├── Educational_Supplies.png
+│   ├── Strollers).png
+│   └── Toys_&_Games.png
+├── Books,_Movies_&_Music
+│   ├── Blu-rays).png
+│   ├── Books_(Fiction.png
+│   ├── Digital_Subscriptions.png
+│   ├── E-Books).png
+│   ├── Instruments).png
+│   ├── Movies_&_TV_Shows_(DVDs.png
+│   ├── Music_(CDs.png
+│   ├── Non-Fiction.png
+│   ├── Video_Games.png
+│   └── Vinyl_Records.png
+├── Digital_Products
+│   ├── Cloud_Storage).png
+│   ├── E-Books.png
+│   ├── Online_Courses.png
+│   ├── Software.png
+│   └── Subscriptions_(Streaming_Services.png
+├── Electronics
+│   ├── Audio_Equipment_(Headphones.png
+│   ├── Cameras_&_Photography_Equipment.png
+│   ├── Drones_&_Action_Cameras.png
+│   ├── Fitness_Trackers).png
+│   ├── Gaming_Consoles_&_Accessories.png
+│   ├── Laptops_&_Computers.png
+│   ├── Mobile_Phones_&_Accessories.png
+│   ├── Speakers).png
+│   ├── TV_&_Home_Entertainment.png
+│   ├── Tablets_&_E-Readers.png
+│   └── Wearable_Technology_(Smartwatches.png
+├── Fashion_&_Apparel
+│   ├── Accessories_(Jewelry.png
+│   ├── Activewear.png
+│   ├── Coats.png
+│   ├── Handbags.png
+│   ├── Kids’_Clothing.png
+│   ├── Lingerie_&_Sleepwear.png
+│   ├── Men’s_Clothing.png
+│   ├── Outerwear_(Jackets.png
+│   ├── Rainwear).png
+│   ├── Sunglasses).png
+│   ├── Watches.png
+│   └── Women’s_Clothing.png
+├── Food_&_Beverages
+│   ├── Alcohol_&_Specialty_Drinks.png
+│   ├── Bakery_Items.png
+│   ├── Beverages).png
+│   ├── Fresh_Produce_(Fruits.png
+│   ├── Grocery_(Pantry_Staples.png
+│   ├── Meal_Kits_&_Ready-to-Eat_Meals.png
+│   ├── Meat.png
+│   ├── Organic_&_Health_Foods.png
+│   ├── Poultry_&_Seafood.png
+│   ├── Snacks.png
+│   └── Vegetables).png
+├── Gifts_&_Specialty_Items
+│   ├── Gift_Cards.png
+│   ├── Halloween.png
+│   ├── Luxury_Items.png
+│   ├── Personalized_Gifts.png
+│   ├── Seasonal_Products_(Christmas.png
+│   └── etc.).png
+├── Health_&_Beauty
+│   ├── Devices).png
+│   ├── Fitness_Equipment.png
+│   ├── Fragrances.png
+│   ├── Haircare.png
+│   ├── Makeup.png
+│   ├── Medical_Supplies_(First_Aid.png
+│   ├── Oral_Care).png
+│   ├── Personal_Care_(Shaving.png
+│   ├── Skincare.png
+│   ├── Vitamins).png
+│   └── Wellness_Products_(Supplements.png
+├── Home_&_Living
+│   ├── Appliances).png
+│   ├── Bedding_&_Linens.png
+│   ├── Cleaning_Supplies.png
+│   ├── Curtains.png
+│   ├── Furniture_(Bedroom.png
+│   ├── Home_Decor_(Rugs.png
+│   ├── Kitchenware_(Cookware.png
+│   ├── Lighting).png
+│   ├── Living_Room.png
+│   ├── Office).png
+│   ├── Smart_Home_Devices.png
+│   ├── Storage_Solutions.png
+│   └── Utensils.png
+├── Industrial_&_Commercial_Supplies
+│   ├── Electrical_Supplies.png
+│   ├── Metal).png
+│   ├── Raw_Materials_(Wood.png
+│   ├── Safety_Equipment.png
+│   └── Tools_&_Machinery.png
+├── Jewelry_&_Watches
+│   ├── Casual).png
+│   ├── Costume_Jewelry.png
+│   ├── Fine_Jewelry.png
+│   └── Watches_(Luxury.png
+├── Miscellaneous
+│   ├── Antiques.png
+│   ├── Collectibles.png
+│   ├── Eco-Friendly_Products.png
+│   └── Religious_Items.png
+├── Office_&_Stationery
+│   ├── Office_Furniture.png
+│   ├── Office_Supplies_(Notebooks.png
+│   ├── Pens.png
+│   ├── Planners).png
+│   ├── Printers_&_Accessories.png
+│   ├── Professional_Equipment_(Laminators.png
+│   ├── Shredders).png
+│   └── Storage_&_Organization.png
+├── Party_&_Events
+│   ├── Balloons).png
+│   ├── Costumes_&_Props.png
+│   ├── Decorations.png
+│   ├── Party_Supplies_(Cups.png
+│   └── Plates.png
+├── Pets
+│   ├── Aquariums_&_Supplies.png
+│   ├── Pet_Beds_&_Furniture.png
+│   ├── Pet_Care_&_Grooming_Products.png
+│   ├── Pet_Food.png
+│   └── Pet_Toys_&_Accessories.png
+├── Sports_&_Outdoors
+│   ├── Bicycles_&_Accessories.png
+│   ├── Camping_&_Hiking_Equipment.png
+│   ├── Fitness_Equipment.png
+│   ├── Outdoor_Furniture.png
+│   ├── Sportswear_&_Gear.png
+│   └── Water_Sports_Gear.png
+├── Tools_&_Home_Improvement
+│   ├── Electrical_Supplies.png
+│   ├── Gardening_Equipment_&_Tools.png
+│   ├── Hardware_(Drills.png
+│   ├── Paint_&_Decor_Supplies.png
+│   ├── Plumbing_Tools.png
+│   ├── Saws.png
+│   └── Screwdrivers).png
+├── Travel_&_Luggage
+│   ├── Backpacks_&_Travel_Bags.png
+│   ├── Luggage_&_Suitcases.png
+│   ├── Pillows).png
+│   └── Travel_Accessories_(Adapters.png
+├── images_on_mimall.txt
+└── upload_to_bucket.sh
+
+20 directories, 149 files
