@@ -88,68 +88,126 @@ const CategoriesPage = () => {
 
   return (
     <div className="relative min-h-screen">
+      {/* Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-800 to-rose-800 opacity-70"></div>
       
       {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Search and Filter Section */}
-        <div className="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="w-full md:w-96 p-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-8">
+        {/* Glass Header */}
+        <div className="backdrop-blur-md bg-white/30 rounded-xl p-6 mb-8 shadow-xl">
+          <h1 className="text-4xl font-bold text-white mb-6">Categories</h1>
           
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortType)}
-            className="w-full md:w-48 p-2 rounded-lg bg-white/10 border border-white/20 text-white"
-          >
-            {Object.entries(sortOptions).map(([value, label]) => (
-              <option key={value} value={value} className="bg-gray-800">
-                {label}
-              </option>
-            ))}
-          </select>
+          {/* Search and Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white placeholder-white/70"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            
+            <select
+              className="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white"
+              value={selectedCategory || ''}
+              onChange={(e) => setSelectedCategory(e.target.value || null)}
+            >
+              <option value="">All Categories</option>
+              {categories.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+
+            <select
+              className="w-full px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortType)}
+            >
+              {Object.entries(sortOptions).map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+
+            <div className="flex gap-4">
+              <input
+                type="number"
+                placeholder="Min Price"
+                className="w-1/2 px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white placeholder-white/70"
+                value={priceRange.min}
+                onChange={(e) => setPriceRange(prev => ({ ...prev, min: Number(e.target.value) }))}
+              />
+              <input
+                type="number"
+                placeholder="Max Price"
+                className="w-1/2 px-4 py-2 rounded-lg bg-white/20 backdrop-blur-sm text-white placeholder-white/70"
+                value={priceRange.max}
+                onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) }))}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white/10 rounded-lg overflow-hidden border border-white/20 backdrop-blur-sm hover:transform hover:scale-105 transition-transform duration-200"
-            >
-              <div className="relative h-48">
-                <Image
-                  src={product.image_url || '/placeholder.jpg'}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-white mb-2">{product.name}</h3>
-                <p className="text-white/70 text-sm mb-2 line-clamp-2">{product.description}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-white font-bold">₹{product.price.toLocaleString()}</span>
-                  <button 
-                    onClick={() => setSelectedProduct(product)}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm"
-                  >
-                    View Details
-                  </button>
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+          </div>
+        ) : (
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                className="backdrop-blur-md bg-white/20 rounded-xl overflow-hidden shadow-xl group cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.03 }}
+                onClick={() => {
+                  setSelectedProduct(product);
+                }}
+              >
+                <div className="relative aspect-w-1 aspect-h-1">
+                  <Image
+                    src={product.image_url || '/placeholder.jpg'}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-white mb-2">{product.name}</h3>
+                  <p className="text-3xl font-bold text-green-400 mb-2">
+                    R{product.price.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </p>
+                  {product.description && (
+                    <p className="text-white/80 text-sm">{product.description}</p>
+                  )}
+                  
+                  <div className="mt-4 flex items-center justify-between text-white/70">
+                    <span className="text-sm">{product.category}</span>
+                    <span className="text-sm">{product.subcategory}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
+
+      {selectedProduct && (
+        <div>
+          <h2 className="text-2xl font-bold text-amber-500">{selectedProduct.name}</h2>
+          <p className="text-gray-400">{selectedProduct.category} / {selectedProduct.subcategory}</p>
+          <p className="text-2xl text-amber-500 mb-2">R {selectedProduct.price.toLocaleString()}</p>
+        </div>
+      )}
     </div>
   );
 };

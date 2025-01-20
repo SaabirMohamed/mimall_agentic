@@ -7,6 +7,7 @@ import VideoBackground from '../components/VideoBackground'
 import { ThemeProvider } from '../components/ThemeProvider'
 import { SessionProvider } from 'next-auth/react'
 import { RouteProvider, useRoute } from '../context/RouteContext'
+import { motion } from 'framer-motion'
 
 const marvel = Marvel({
   weight: ['400', '700'],
@@ -20,24 +21,33 @@ function MainLayout({ children }: { children: React.ReactNode }) {
   const { isAgenticUIVisible } = useRoute()
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex-1 flex flex-col">
+    <div className="min-h-screen">
+      {/* Main Content */}
+      <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 relative">
           <VideoBackground />
-          <div className="relative z-10 container mx-auto px-4">
+          <div className="relative z-10">
             {children}
           </div>
         </main>
       </div>
+
+      {/* Floating Agentic UI Widget */}
       {isAgenticUIVisible && (
-        <div className="w-1/4 min-w-[300px] bg-background border-l">
-          <div className="p-4 h-full">
-            <h2 className="text-2xl font-bold mb-4 text-white">Agentic UI</h2>
-            <div className="agentic-ui-content">
-              {/* Agentic UI content will be injected here */}
-            </div>
-          </div>
+        <div className="fixed bottom-6 right-6 z-50">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+          >
+            <button 
+              className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+              aria-label="Agentic UI"
+            >
+              <span className="text-2xl">AI</span>
+            </button>
+          </motion.div>
         </div>
       )}
     </div>
